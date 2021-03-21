@@ -10,7 +10,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 
-public class CreateTeamComponent extends HorizontalLayout {
+public class  CreateTeamComponent extends HorizontalLayout {
     public CreateTeamComponent(CourseService courseService, TeamService teamService, Grid grid){
         Label editLabel = new Label("Create new group");
         editLabel.setHeight("wrap-content");

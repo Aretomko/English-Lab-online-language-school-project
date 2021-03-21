@@ -8,7 +8,10 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.server.VaadinSession;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class ReadingExercisesMain extends VerticalLayout {
@@ -32,8 +35,11 @@ public class ReadingExercisesMain extends VerticalLayout {
         text.getStyle().set("box-shadow", "0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px 0 rgba(0,0,0,0.19)");
         text.setWidth("80%");
         text.setPadding(true);
-        Label textLabel = new Label(reading.getText());
-        text.add(textLabel);
+        List<String> paragraphs = Arrays.asList(reading.getText().split("/"));
+        for(String paragraph : paragraphs) {
+            Label textLabel = new Label(paragraph);
+            text.add(textLabel);
+        }
         this.add(text);
         //display questions and answers
         if(reading.getExercisesReading().size()==0) this.add(new Label("Не знайдено жодного завдання, скоріш за все цей курс ще не закінчено"))

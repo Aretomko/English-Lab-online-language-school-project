@@ -25,15 +25,10 @@ public class EditReadingTaskComponent extends VerticalLayout {
         editLabel.getStyle().set("font-weight", "500");
         //create form field
         TextField nameTextField = new TextField("name");
-        TextField textTextField = new TextField("text");
         TextField lessonIdTextField = new TextField("lessonId");
         if (reading.getName()!= null) nameTextField.setValue(reading.getName())
                 ;
         else nameTextField.setPlaceholder("not set")
-                ;
-        if (reading.getText()!=null) textTextField.setValue(reading.getText())
-                ;
-        else textTextField.setPlaceholder("not set")
                 ;
         if (reading.getLesson()!=null) lessonIdTextField.setValue(String.valueOf(reading.getLesson().getId()))
                 ;
@@ -42,14 +37,13 @@ public class EditReadingTaskComponent extends VerticalLayout {
         //create button
         Button submit = new Button("Update" , event -> {
             reading.setName(nameTextField.getValue());
-            reading.setText(textTextField.getValue());
             reading.setLesson(lessonsService.findLessonById(lessonIdTextField.getValue()));
             readingService.save(reading);
             grid.getDataProvider().refreshItem(reading);
             readingTasksAdminView.removeAll();
             readingTasksAdminView.add(navbarAdmin, createReadingTaskComponent, grid);
         });
-        this.add(editLabel ,nameTextField, textTextField, lessonIdTextField, submit);
+        this.add(editLabel ,nameTextField, lessonIdTextField, submit);
         this.setWidth("100%");
         this.setPadding(true);
         this.setAlignItems(Alignment.BASELINE);
