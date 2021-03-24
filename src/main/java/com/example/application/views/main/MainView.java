@@ -18,7 +18,6 @@ import com.vaadin.flow.server.VaadinSession;
         enableInstallPrompt = false)
 public class MainView extends VerticalLayout implements RouterLayout {
 
-
     public MainView(UserService getUserService, AuthService authService){
         String username = VaadinSession.getCurrent().getAttribute("username").toString();
         User user = getUserService.getUserByUsername(username);
