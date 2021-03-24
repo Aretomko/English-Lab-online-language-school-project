@@ -6,33 +6,64 @@ import com.example.application.views.admin.NavbarAdmin;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.Nav;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
 public class CourseEditComponent extends HorizontalLayout {
+    private Label editLabel;
+    private TextField courseNameTextField;
+    private Button submit;
+    private Course course;
+
     public CourseEditComponent(Course course, CourseService courseService, Grid<Course> grid, CoursesAdminView adminView, NavbarAdmin navbarAdmin, CreateCourseComponent createCourseComponent){
-        Label editLabel = new Label("Edit course " + course.getName());
+        this.course = course;
+        this.editLabel = new Label("Edit course " + course.getName());
         editLabel.setHeight("wrap-content");
         editLabel.getStyle().set("font","400 13.3333px Arial");
         editLabel.getStyle().set("font-size", "var(--lumo-font-size-s)");
         editLabel.getStyle().set("font-weight", "500");
         //create form field
-        TextField userNameTextField = new TextField("course name");
-        if (course.getName()!=null) userNameTextField.setValue(course.getName())
+        this.courseNameTextField = new TextField("course name");
+        if (course.getName()!=null) courseNameTextField.setValue(course.getName())
                 ;
-        else userNameTextField.setPlaceholder("not set")
+        else courseNameTextField.setPlaceholder("not set")
                 ;
         //create button
-        Button submit = new Button("Update" , event -> {
-            course.setName(userNameTextField.getValue());
-            courseService.save(course);
-            grid.getDataProvider().refreshItem(course);
-            adminView.removeAll();
-            adminView.add(navbarAdmin, createCourseComponent, grid);
+        this.submit = new Button("Update" , event -> {
+            updateCourse(course, courseService, grid, adminView, navbarAdmin, createCourseComponent);
         });
-        this.add(editLabel ,userNameTextField, submit);
+        this.add(editLabel ,courseNameTextField, submit);
         this.setWidth("100%");
         this.setPadding(true);
         this.setAlignItems(Alignment.BASELINE);
+    }
+    public void updateCourse(Course course,
+                              CourseService courseService,
+                              Grid<Course> grid,
+                              CoursesAdminView adminView,
+                              NavbarAdmin navbarAdmin,
+                              CreateCourseComponent createCourseComponent){
+        this.course.setName(courseNameTextField.getValue());
+        courseService.save(this.course);
+        grid.getDataProvider().refreshItem(course);
+        adminView.removeAll();
+        adminView.add(navbarAdmin, createCourseComponent, grid);
+    }
+
+    public Label getEditLabel() {
+        return editLabel;
+    }
+
+    public TextField getCourseNameTextField() {
+        return courseNameTextField;
+    }
+
+    public Button getSubmit() {
+        return submit;
+    }
+
+    public Course getCourse() {
+        return course;
     }
 }

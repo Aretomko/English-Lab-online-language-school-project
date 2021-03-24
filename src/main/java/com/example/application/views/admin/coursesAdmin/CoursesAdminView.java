@@ -13,10 +13,10 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class CoursesAdminView extends VerticalLayout {
-    public CoursesAdminView(CreateAdminGridService createAdminGridService, CourseService courseService){
+    public CoursesAdminView(CreateGridCoursesService createGridCoursesService, CourseService courseService){
         NavbarAdmin navbarAdmin = new NavbarAdmin();
         add(navbarAdmin);
-        Grid<Course> grid = createAdminGridService.createGridCourses();
+        Grid<Course> grid = createGridCoursesService.createGridCourses();
         CreateCourseComponent createUserComponent = new CreateCourseComponent(courseService, grid);
         grid.addItemClickListener(item -> editCourseEvent(item.getItem(), courseService,navbarAdmin, grid, createUserComponent));
         this.add(navbarAdmin, createUserComponent, grid);

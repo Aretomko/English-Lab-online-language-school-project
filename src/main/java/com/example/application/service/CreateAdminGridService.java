@@ -78,13 +78,6 @@ public class CreateAdminGridService {
         });
         return button;
     }
-    public Grid<Course> createGridCourses(){
-        Grid<Course> grid = new Grid<>();
-        grid.setItems(courseService.getAllCourses());
-        grid.addColumn(Course::getName).setHeader("Course name");
-        grid.addComponentColumn(item -> createRemoveButtonCourses(grid, item, teamService)).setHeader("Delete team");
-        return grid;
-    }
     public Grid<Lesson> createGridLessons(){
         Grid<Lesson> grid = new Grid<>();
         grid.setItems(lessonsService.getAllLessons());
@@ -419,16 +412,6 @@ public class CreateAdminGridService {
         return button;
     }
 
-    private Button createRemoveButtonCourses(Grid<Course> grid, Course item, TeamService teamService) {
-        @SuppressWarnings("unchecked")
-        Button button = new Button("Delete", clickEvent -> {
-            ListDataProvider<Course> dataProvider = (ListDataProvider<Course>) grid.getDataProvider();
-            dataProvider.getItems().remove(item);
-            courseService.delete(item);
-            dataProvider.refreshAll();
-        });
-        return button;
-    }
     private Button createRemoveButtonLessons(Grid<Lesson> grid, Lesson lesson, LessonsService lessonsService) {
         @SuppressWarnings("unchecked")
         Button button = new Button("Delete", clickEvent -> {
