@@ -23,8 +23,7 @@ public class Reading implements Exercise {
     public Reading() {
     }
 
-    public Reading(String name, String text, Lesson lesson) {
-        this.text = text;
+    public Reading(String name, Lesson lesson) {
         this.name = name;
         this.lesson = lesson;
     }

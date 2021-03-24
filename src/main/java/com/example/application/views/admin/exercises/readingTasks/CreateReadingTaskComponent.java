@@ -18,22 +18,20 @@ public class CreateReadingTaskComponent extends HorizontalLayout {
         editLabel.getStyle().set("font-weight", "500");
         //create form fields
         TextField name = new TextField("task name");
-        TextField text = new TextField("text");
         TextField lessonId = new TextField("lesson id!!");
 
         //create button
         Button submit = new Button("Create" , event -> {
             try {
-                readingService.save(new Reading(name.getValue(), text.getValue(), lessonsService.findLessonById(lessonId.getValue())));
+                readingService.save(new Reading(name.getValue(), lessonsService.findLessonById(lessonId.getValue())));
             }catch (RuntimeException ex){
                 this.add(new Label("Error, wrong id provided"));
             }
             grid.setItems(readingService.getAllReadings());
             name.setValue("");
-            text.setValue("");
             lessonId.setValue("");
         });
-        this.add(editLabel ,name, text, lessonId, submit);
+        this.add(editLabel ,name, lessonId, submit);
         this.setWidth("100%");
         this.setPadding(true);
         this.setAlignItems(Alignment.BASELINE);

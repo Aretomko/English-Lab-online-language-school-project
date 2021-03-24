@@ -2,6 +2,7 @@ package com.example.application.views.login;
 
 import com.example.application.service.AuthService;
 import com.example.application.views.navbar.NavbarView;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
@@ -32,6 +33,13 @@ public class LoginView extends Div {
 		NavbarView navbarView = new NavbarView();
 		TextField userNameTextField = new TextField("Ідентифікатор");
 		PasswordField passwordField = new PasswordField("Пароль");
+		passwordField.addKeyPressListener(Key.ENTER, event-> {
+			boolean isLoggedIn = authService.authenticate(userNameTextField.getValue(), passwordField.getValue());
+			if (isLoggedIn) UI.getCurrent().navigate("personal")
+					;
+			else Notification.show("Неправельний пароль або логін")
+					;
+		});
 		verticalLayout.add(userNameTextField, passwordField,
 				new Button("Увійти" , event -> {
 					boolean isLoggedIn = authService.authenticate(userNameTextField.getValue(), passwordField.getValue());

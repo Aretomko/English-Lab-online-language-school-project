@@ -12,8 +12,8 @@ import com.vaadin.flow.server.VaadinSession;
 
 
 
-public class EditTextReadingView extends VerticalLayout {
-    public void EditTextReadingView(ReadingService readingService){
+public class TextEditorReadingView extends VerticalLayout {
+    public TextEditorReadingView(ReadingService readingService){
         NavbarAdmin navbarAdmin = new NavbarAdmin();
         this.add(navbarAdmin);
         //find reading to attach text
