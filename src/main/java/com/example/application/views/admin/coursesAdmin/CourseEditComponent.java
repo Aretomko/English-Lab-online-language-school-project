@@ -46,7 +46,7 @@ public class CourseEditComponent extends HorizontalLayout {
                               CreateCourseComponent createCourseComponent){
         this.course.setName(courseNameTextField.getValue());
         courseService.save(this.course);
-        grid.getDataProvider().refreshItem(course);
+        grid.setItems(courseService.getAllCourses());
         adminView.removeAll();
         adminView.add(navbarAdmin, createCourseComponent, grid);
     }
