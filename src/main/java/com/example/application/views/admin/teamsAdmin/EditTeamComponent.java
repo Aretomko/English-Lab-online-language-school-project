@@ -13,15 +13,42 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 
 public class EditTeamComponent extends HorizontalLayout {
-    public EditTeamComponent(Team team, CourseService courseService, TeamService teamService, Grid grid, TeamsAdminView teamsAdminView, CreateTeamComponent createTeamComponent, NavbarAdmin navbarAdmin){
-        Label editLabel = new Label("Edit group " + team.getName());
+    //dependencies
+    private final CourseService courseService;
+    private final TeamService teamService;
+    private final Grid<Team> grid;
+    private final TeamsAdminView teamsAdminView;
+    private final CreateTeamComponent createTeamComponent;
+    private final NavbarAdmin navbarAdmin;
+    //UI componets
+    private Label editLabel;
+    private TextField teamNameTextField;
+    private TextField teamScheduleTextField;
+    private Select<String> courseSelect;
+
+    public EditTeamComponent(Team team,
+                             CourseService courseService,
+                             TeamService teamService,
+                             Grid grid,
+                             TeamsAdminView teamsAdminView,
+                             CreateTeamComponent createTeamComponent,
+                             NavbarAdmin navbarAdmin){
+        //dependencies initialization
+        this.courseService = courseService;
+        this.teamService = teamService;
+        this.grid = grid;
+        this.teamsAdminView = teamsAdminView;
+        this.createTeamComponent = createTeamComponent;
+        this.navbarAdmin = navbarAdmin;
+        //UI initialization
+        this.editLabel = new Label("Edit group " + team.getName());
         editLabel.setHeight("wrap-content");
         editLabel.getStyle().set("font","400 13.3333px Arial");
         editLabel.getStyle().set("font-size", "var(--lumo-font-size-s)");
         editLabel.getStyle().set("font-weight", "500");
         //create form field
-        TextField teamNameTextField = new TextField("name");
-        TextField teamScheduleTextField = new TextField("surname");
+        this.teamNameTextField = new TextField("name");
+        this.teamScheduleTextField = new TextField("surname");
         if (team.getName()!= null) teamNameTextField.setValue(team.getName())
                 ;
         else teamNameTextField.setPlaceholder("not set")
@@ -30,26 +57,46 @@ public class EditTeamComponent extends HorizontalLayout {
                 ;
         else teamScheduleTextField.setPlaceholder("not set")
                 ;
-        Select<String> placeholderSelect = new Select<>();
-        placeholderSelect.setItems(courseService.getAllCoursesNames());
-        if (team.getCourse() != null) placeholderSelect.setValue(team.getCourse().getName())
+        this.courseSelect = new Select<>();
+        courseSelect.setItems(courseService.getAllCoursesNames());
+        courseSelect.setLabel("team");
+        if (team.getCourse() != null) courseSelect.setValue(team.getCourse().getName())
                 ;
-        else placeholderSelect.setPlaceholder("not selected")
+        else courseSelect.setPlaceholder("not selected")
                 ;
-        placeholderSelect.setLabel("team");
         //create button
         Button submit = new Button("Update" , event -> {
-            team.setName(teamNameTextField.getValue());
-            team.setSchedule(teamScheduleTextField.getValue());
-            team.setCourse(courseService.getCourseByName(placeholderSelect.getValue()));
-            teamService.save(team);
-            grid.getDataProvider().refreshItem(team);
-            teamsAdminView.removeAll();
-            teamsAdminView.add(navbarAdmin, createTeamComponent, grid);
+            this.updateTeam(team);
         });
-        this.add(editLabel ,teamNameTextField, teamScheduleTextField, placeholderSelect, submit);
+        this.add(editLabel ,teamNameTextField, teamScheduleTextField, courseSelect, submit);
         this.setWidth("100%");
         this.setPadding(true);
         this.setAlignItems(Alignment.BASELINE);
+    }
+
+    public void updateTeam(Team team){
+        team.setName(teamNameTextField.getValue());
+        team.setSchedule(teamScheduleTextField.getValue());
+        team.setCourse(courseService.getCourseByName(courseSelect.getValue()));
+        teamService.save(team);
+        grid.getDataProvider().refreshItem(team);
+        teamsAdminView.removeAll();
+        teamsAdminView.add(navbarAdmin, createTeamComponent, grid);
+    }
+
+    public Label getEditLabel() {
+        return editLabel;
+    }
+
+    public TextField getTeamNameTextField() {
+        return teamNameTextField;
+    }
+
+    public TextField getTeamScheduleTextField() {
+        return teamScheduleTextField;
+    }
+
+    public Select<String> getCourseSelect() {
+        return courseSelect;
     }
 }

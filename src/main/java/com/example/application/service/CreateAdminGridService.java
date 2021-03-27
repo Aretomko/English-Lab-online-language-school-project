@@ -49,24 +49,6 @@ public class CreateAdminGridService {
         this.answerGrammarService = answerGrammarService;
     }
 
-    public Grid<Team> createGridTeams(){
-        Grid<Team> grid = new Grid<>();
-        grid.setItems(teamService.getAllTeams());
-        grid.addColumn(Team::getName).setHeader("Team name");
-        grid.addColumn(Team::getSchedule).setHeader("Team schedule");
-        grid.addColumn(item -> courseService.getStringName(item)).setHeader("Course");
-        grid.addComponentColumn(this::createAnswerInfoButton).setHeader("See answers");
-        grid.addComponentColumn(item -> createRemoveButtonTeams(grid, item, teamService)).setHeader("Delete team");
-        return grid;
-    }
-
-    private Button createAnswerInfoButton(Team team){
-        Button button = new Button("Answers", event->{
-            VaadinSession.getCurrent().setAttribute("teamId", team.getId());
-            UI.getCurrent().navigate("admin/answers");
-        });
-        return button;
-    }
     public Grid<Lesson> createGridLessons(){
         Grid<Lesson> grid = new Grid<>();
         grid.setItems(lessonsService.getAllLessons());
@@ -411,16 +393,4 @@ public class CreateAdminGridService {
         });
         return button;
     }
-
-    private Component createRemoveButtonTeams(Grid<Team> grid, Team item, TeamService teamService) {
-        @SuppressWarnings("unchecked")
-        Button button = new Button("Delete", clickEvent -> {
-            ListDataProvider<Team> dataProvider = (ListDataProvider<Team>) grid.getDataProvider();
-            dataProvider.getItems().remove(item);
-            teamService.deleteTeamByName(item.getName());
-            dataProvider.refreshAll();
-        });
-        return button;
-    }
-
 }
