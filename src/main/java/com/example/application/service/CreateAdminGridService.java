@@ -49,17 +49,6 @@ public class CreateAdminGridService {
         this.answerGrammarService = answerGrammarService;
     }
 
-    public Grid<User> createGridUsers(){
-        Grid<User> grid = new Grid<>();
-        grid.setItems(userService.getAllUsers());
-        grid.addColumn(User::getUsername).setHeader("Id");
-        grid.addColumn(User::getRealN).setHeader("Name");
-        grid.addColumn(User::getSurname).setHeader("Surname");
-        grid.addColumn(User::getPassword).setHeader("Password");
-        grid.addColumn(item -> teamService.getTemName(item)).setHeader("Select team");
-        grid.addComponentColumn(item -> createRemoveButtonUsers(grid, item, userService)).setHeader("Delete user");
-        return grid;
-    }
     public Grid<Team> createGridTeams(){
         Grid<Team> grid = new Grid<>();
         grid.setItems(teamService.getAllTeams());
@@ -434,17 +423,4 @@ public class CreateAdminGridService {
         return button;
     }
 
-    private Button createRemoveButtonUsers(Grid<User> grid, User item, UserService userService) {
-        @SuppressWarnings("unchecked")
-        Button button = new Button("Delete", clickEvent -> {
-            ListDataProvider<User> dataProvider = (ListDataProvider<User>) grid.getDataProvider();
-            dataProvider.getItems().remove(item);
-            userService.deleteUserByUsername(item.getUsername());
-            //delete all answers connected with the user
-            answerVocabularyService.deleteAll(item.getAnswersVocabulary());
-
-            dataProvider.refreshAll();
-        });
-        return button;
-    }
 }

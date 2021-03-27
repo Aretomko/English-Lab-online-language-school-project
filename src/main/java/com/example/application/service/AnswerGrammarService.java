@@ -20,6 +20,8 @@ public class AnswerGrammarService {
     public void delete(AnswerGrammar answerGrammar){
         answerGrammarRepo.delete(answerGrammar);
     }
-
+    public void deleteAll(Set<AnswerGrammar> answersGrammar){
+        answerGrammarRepo.deleteAll(answersGrammar);
+    }
 
 }

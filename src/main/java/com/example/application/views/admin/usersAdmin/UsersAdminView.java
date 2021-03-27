@@ -12,11 +12,11 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.ListDataProvider;
 
 public class UsersAdminView extends VerticalLayout {
-    public UsersAdminView(UserService userService, TeamService teamService, CreateAdminGridService createAdminGridService){
+    public UsersAdminView(UserService userService, TeamService teamService, CreateGridUserService createGridUserService){
         NavbarAdmin navbarAdmin = new NavbarAdmin();
         add(navbarAdmin);
-        Grid<User> grid = createAdminGridService.createGridUsers();
-        CreateUserComponent createUserComponent = new CreateUserComponent(teamService, userService, this, navbarAdmin, grid);
+        Grid<User> grid = createGridUserService.createGridUsers();
+        CreateUserComponent createUserComponent = new CreateUserComponent(teamService, userService, grid);
         grid.addItemClickListener(item -> editUserEvent(item.getItem(), teamService, grid, navbarAdmin, userService, createUserComponent));
         this.add(navbarAdmin, createUserComponent, grid);
     }

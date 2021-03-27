@@ -7,23 +7,40 @@ import com.example.application.views.admin.NavbarAdmin;
 import com.example.application.views.admin.usersAdmin.CreateUserComponent;
 import com.example.application.views.admin.usersAdmin.EditUserComponent;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import javax.persistence.Entity;
 
 @Entity
 public class LessonsAdminView extends VerticalLayout {
-    public LessonsAdminView(CreateAdminGridService createAdminGridService, LessonsService lessonsService, CourseService courseService){
-        NavbarAdmin navbarAdmin = new NavbarAdmin();
-        add(navbarAdmin);
-        Grid<Lesson> grid = createAdminGridService.createGridLessons();
+    private final LessonsService lessonsService;
+    private final CourseService courseService;
+    //UI elements
+    private NavbarAdmin navbarAdmin;
+    private Grid<Lesson> grid;
+    private HorizontalLayout modificationComponent;
+
+    public LessonsAdminView(CreateGridLessonsService createGridLessonsService, LessonsService lessonsService, CourseService courseService){
+        //Services initialization
+        this.lessonsService = lessonsService;
+        this.courseService = courseService;
+        //UI initialization
+        this.navbarAdmin = new NavbarAdmin();
+        this.grid = createGridLessonsService.createGridLessons();
         CreateLessonComponent createLessonComponent = new CreateLessonComponent(lessonsService, courseService, grid);
-        grid.addItemClickListener(item -> editLessonEvent(item.getItem(),courseService, lessonsService, grid, navbarAdmin, createLessonComponent ));
-        this.add(navbarAdmin, createLessonComponent, grid);
+        this.modificationComponent = createLessonComponent;
+        this.grid.addItemClickListener(item -> editLessonEvent(item.getItem(), createLessonComponent ));
+        this.showUI();
     }
-    private void editLessonEvent(Lesson lesson, CourseService courseService, LessonsService lessonsService, Grid<Lesson> grid, NavbarAdmin navbarAdmin, CreateLessonComponent createLessonComponent) {
-        EditLessonComponent editUserComponent = new EditLessonComponent(lesson, courseService, lessonsService, grid, this, navbarAdmin, createLessonComponent);
+    private void editLessonEvent(Lesson lesson, CreateLessonComponent createLessonComponent) {
+        EditLessonComponent editUserComponent = new EditLessonComponent(lesson, this.courseService, this.lessonsService, this.grid, this, this.navbarAdmin, createLessonComponent);
+        this.modificationComponent = editUserComponent;
         this.removeAll();
-        this.add(navbarAdmin,editUserComponent, grid);
+        this.showUI();
+    }
+
+    public void showUI(){
+        this.add(navbarAdmin,modificationComponent, grid);
     }
 }

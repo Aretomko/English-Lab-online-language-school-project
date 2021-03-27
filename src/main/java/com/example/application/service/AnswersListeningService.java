@@ -1,5 +1,6 @@
 package com.example.application.service;
 
+import com.example.application.domain.Answer;
 import com.example.application.domain.AnswerListening;
 import com.example.application.domain.ExerciseListening;
 import com.example.application.repos.AnswerListeningRepo;
@@ -19,5 +20,8 @@ public class AnswersListeningService {
     }
     public void delete(AnswerListening answerListening){
         answerListeningRepo.delete(answerListening);
+    }
+    public void deleteAll(Set<AnswerListening> answersListening){
+        answerListeningRepo.deleteAll(answersListening);
     }
 }
