@@ -1,4 +1,4 @@
-package com.example.application.views.main.vocabulary;
+package com.example.application.views.user.vocabulary;
 
 import com.example.application.domain.ExerciseVocabulary;
 import com.example.application.domain.Lesson;

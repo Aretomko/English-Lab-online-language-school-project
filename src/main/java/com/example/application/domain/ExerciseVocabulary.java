@@ -30,11 +30,12 @@ public class ExerciseVocabulary implements Exercise{
     public ExerciseVocabulary() {
     }
 
-    public ExerciseVocabulary(String text, String answer, String rightAnswer, Lesson lesson) {
+    public ExerciseVocabulary(String text, String answer, String rightAnswer, Lesson lesson, Boolean isHomework) {
         this.text = text;
         this.answer = answer;
         this.rightAnswer = rightAnswer;
         this.lesson = lesson;
+        this.isHomework = isHomework;
     }
 
     public Long getId() {

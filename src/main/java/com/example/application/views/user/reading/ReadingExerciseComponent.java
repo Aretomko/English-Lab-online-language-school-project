@@ -1,4 +1,4 @@
-package com.example.application.views.main.reading;
+package com.example.application.views.user.reading;
 
 import com.example.application.domain.AnswerReading;
 import com.example.application.domain.ExerciseReading;

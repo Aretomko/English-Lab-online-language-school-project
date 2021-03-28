@@ -1,4 +1,4 @@
-package com.example.application.views.main.listening;
+package com.example.application.views.user.listening;
 
 import com.example.application.domain.Lesson;
 import com.example.application.domain.Listening;

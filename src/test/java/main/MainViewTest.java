@@ -1,7 +1,6 @@
 package main;
 
-import com.example.application.views.main.MainView;
-import com.vaadin.flow.component.datepicker.testbench.DatePickerElement;
+import com.example.application.views.user.MainView;
 import org.junit.Test;
 import org.mockito.Mockito;
 

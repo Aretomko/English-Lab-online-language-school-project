@@ -1,4 +1,4 @@
-package com.example.application.views.main.reading;
+package com.example.application.views.user.reading;
 
 import com.example.application.domain.ExerciseReading;
 import com.example.application.domain.Reading;
@@ -8,7 +8,6 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.server.VaadinSession;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;

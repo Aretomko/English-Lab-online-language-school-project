@@ -1,4 +1,4 @@
-package com.example.application.views.main;
+package com.example.application.views.user;
 
 import com.example.application.domain.Course;
 import com.example.application.domain.Team;

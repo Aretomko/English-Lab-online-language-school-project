@@ -102,17 +102,6 @@ public class CreateAdminGridService {
         return grid;
     }
 
-    public Grid<ExerciseVocabulary> createGridExerciseVocabulary(){
-        Grid<ExerciseVocabulary> grid = new Grid<>();
-        grid.setItems(vocabularyExerciseService.getAllVocabularyExercises());
-        grid.addColumn(ExerciseVocabulary::getText).setHeader("Question text");
-        grid.addColumn(ExerciseVocabulary::getAnswer).setHeader("Answers sep by /");
-        grid.addColumn(ExerciseVocabulary::getRightAnswer).setHeader("Right answer");
-        grid.addColumn(item -> lessonsService.getStringNameIdByVocabularyExercise(item)).setHeader("Lesson");
-        grid.addComponentColumn(item -> createRemoveButtonExerciseVocabulary(grid, item));
-        return grid;
-    }
-
     public Grid<ExerciseReading> createGridExerciseReading(){
         Grid<ExerciseReading> grid = new Grid<>();
         grid.setItems(readingExercisesService.getAllReadingExercises());
@@ -321,19 +310,6 @@ public class CreateAdminGridService {
             dataProvider.refreshAll();
         });
         return button;
-    }
-    public Button createRemoveButtonExerciseVocabulary(Grid<ExerciseVocabulary> grid, ExerciseVocabulary exerciseVocabulary){
-        Button button = new Button("Delete", event->{
-            ListDataProvider<ExerciseVocabulary> dataProvider = (ListDataProvider<ExerciseVocabulary>) grid.getDataProvider();
-            for(AnswerVocabulary answer:exerciseVocabulary.getAnswers()){
-                answerVocabularyService.delete(answer);
-            }
-            dataProvider.getItems().remove(exerciseVocabulary);
-            vocabularyExerciseService.delete(exerciseVocabulary);
-            dataProvider.refreshAll();
-        });
-        return button;
-
     }
 
     public Button createRemoveButtonExercisesListening(Grid<ExerciseListening> grid, ExerciseListening exerciseListening){

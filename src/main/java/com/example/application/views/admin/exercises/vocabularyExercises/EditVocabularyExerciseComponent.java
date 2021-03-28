@@ -5,12 +5,20 @@ import com.example.application.service.LessonsService;
 import com.example.application.service.VocabularyExerciseService;
 import com.example.application.views.admin.NavbarAdmin;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
 public class EditVocabularyExerciseComponent extends HorizontalLayout {
+    private Label createLabel;
+    private TextField question;
+    private TextField answers;
+    private TextField lessonId;
+    private TextField rightAnswer;
+    private Checkbox isHomework;
+    private Button submit;
     public EditVocabularyExerciseComponent(ExerciseVocabulary exerciseVocabulary,
                                            LessonsService lessonsService,
                                            VocabularyExerciseService vocabularyExerciseService,
@@ -18,16 +26,18 @@ public class EditVocabularyExerciseComponent extends HorizontalLayout {
                                            VocabularyExerciseAdminAdmin vocabularyExerciseAdminAdmin,
                                            NavbarAdmin navbarAdmin,
                                            CreateVocabularyExerciseComponent createVocabularyExerciseComponent){
-        Label editLabel = new Label("Edit vocabulary exercise " +  exerciseVocabulary.getId());
-        editLabel.setHeight("wrap-content");
-        editLabel.getStyle().set("font","400 13.3333px Arial");
-        editLabel.getStyle().set("font-size", "var(--lumo-font-size-s)");
-        editLabel.getStyle().set("font-weight", "500");
+        this.createLabel = new Label("Edit vocabulary exercise " +  exerciseVocabulary.getId());
+        createLabel.setHeight("wrap-content");
+        createLabel.getStyle().set("font","400 13.3333px Arial");
+        createLabel.getStyle().set("font-size", "var(--lumo-font-size-s)");
+        createLabel.getStyle().set("font-weight", "500");
         //create form field
-        TextField question = new TextField("question");
-        TextField answers = new TextField("answers sep by /");
-        TextField rightAnswer = new TextField("answers sep by /");
-        TextField lessonId = new TextField("lesson id");
+        question = new TextField("question");
+        answers = new TextField("answers sep by /");
+        rightAnswer = new TextField("answers sep by /");
+        lessonId = new TextField("lesson id");
+        isHomework = new Checkbox("is homework");
+
         if(exerciseVocabulary.getText()!=null) question.setValue(exerciseVocabulary.getText())
                 ;
         else question.setPlaceholder("not set")
@@ -44,18 +54,23 @@ public class EditVocabularyExerciseComponent extends HorizontalLayout {
                 ;
         else lessonId.setPlaceholder("not set")
                 ;
+        if (exerciseVocabulary.getHomework()!=null) isHomework.setValue(exerciseVocabulary.getHomework())
+                ;
+        else isHomework.setValue(false)
+                ;
         //create button
-        Button submit = new Button("Update" , event -> {
+        submit = new Button("Update" , event -> {
             exerciseVocabulary.setText(question.getValue());
             exerciseVocabulary.setAnswer(answers.getValue());
             exerciseVocabulary.setRightAnswer(rightAnswer.getValue());
             exerciseVocabulary.setLesson(lessonsService.findLessonById(lessonId.getValue()));
+            exerciseVocabulary.setHomework(isHomework.getValue());
             vocabularyExerciseService.save(exerciseVocabulary);
             grid.getDataProvider().refreshItem(exerciseVocabulary);
             vocabularyExerciseAdminAdmin.removeAll();
             vocabularyExerciseAdminAdmin.add(navbarAdmin, createVocabularyExerciseComponent, grid);
         });
-        this.add(editLabel , question,answers,rightAnswer,lessonId, submit);
+        this.add(createLabel , question,answers,rightAnswer,lessonId, isHomework, submit);
         this.setWidth("100%");
         this.setPadding(true);
         this.setAlignItems(Alignment.BASELINE);

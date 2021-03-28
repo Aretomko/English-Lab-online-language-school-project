@@ -1,4 +1,4 @@
-package com.example.application.views.main.lessonOverview;
+package com.example.application.views.user.lessonOverview;
 
 import com.example.application.domain.Lesson;
 import com.example.application.service.LessonsService;
@@ -80,7 +80,15 @@ public class LessonOverviewMain extends VerticalLayout {
             });
             listening.add(listeningDescription,seeListening);
             wrapper.add(listening);
-
+            //listening
+            VerticalLayout homework = new VerticalLayout();
+            listening.getStyle().set("box-shadow", "0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px 0 rgba(0,0,0,0.19)");
+            Label homeworkLabel = new Label("Домашньє завдання");
+            Button seeHomework = new Button("Ропочати завдання", event->{
+                UI.getCurrent().navigate("lesson/homework");
+            });
+            homework.add(homeworkLabel, seeHomework);
+            wrapper.add(homework);
         }
         this.add(wrapper);
     }

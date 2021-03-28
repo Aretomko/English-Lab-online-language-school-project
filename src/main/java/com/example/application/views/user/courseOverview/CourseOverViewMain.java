@@ -1,4 +1,4 @@
-package com.example.application.views.main.courseOverview;
+package com.example.application.views.user.courseOverview;
 
 import com.example.application.domain.Course;
 import com.example.application.domain.Lesson;

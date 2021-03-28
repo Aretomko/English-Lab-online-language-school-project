@@ -10,23 +10,33 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class ReadingTasksAdminView extends VerticalLayout {
+    private final ReadingService readingService;
+    private final LessonsService lessonsService;
+    //UI components
+    private NavbarAdmin navbarAdmin;
+    private Grid<Reading> grid;
+    private HorizontalLayout modificationComponentDisplayed;
+
     public ReadingTasksAdminView(CreateReadingGridService createReadingGridService, ReadingService readingService, LessonsService lessonsService){
-        NavbarAdmin navbarAdmin = new NavbarAdmin();
-        add(navbarAdmin);
-        Grid<Reading> grid = createReadingGridService.createGridReading();
+        this.readingService = readingService;
+        this.lessonsService = lessonsService;
+        //UI initialization
+        this.navbarAdmin = new NavbarAdmin();
+        this.grid = createReadingGridService.createGridReading();
         CreateReadingTaskComponent createReadingTaskComponent = new CreateReadingTaskComponent(readingService, lessonsService, grid);
-        grid.addItemClickListener(item ->editTeamEvent(item.getItem(), navbarAdmin, grid, lessonsService,readingService,createReadingTaskComponent));
-        this.add(navbarAdmin, createReadingTaskComponent, grid);
+        this.modificationComponentDisplayed = createReadingTaskComponent;
+        grid.addItemClickListener(item ->editTeamEvent(item.getItem(),createReadingTaskComponent));
+        this.displayUIComponents();
     }
 
-    private void editTeamEvent(Reading reading,
-                               NavbarAdmin navbarAdmin,
-                               Grid<Reading> grid,
-                               LessonsService lessonsService,
-                               ReadingService readingService,
-                               CreateReadingTaskComponent createReadingTaskComponent){
+    private void editTeamEvent(Reading reading, CreateReadingTaskComponent createReadingTaskComponent){
         EditReadingTaskComponent editReadingTaskComponent = new EditReadingTaskComponent(reading, lessonsService, readingService, grid, this, navbarAdmin, createReadingTaskComponent);
+        this.modificationComponentDisplayed = editReadingTaskComponent;
         this.removeAll();
-        this.add(navbarAdmin, editReadingTaskComponent, grid);
+        this.displayUIComponents();
+    }
+
+    private void displayUIComponents(){
+        this.add(navbarAdmin, modificationComponentDisplayed, grid);
     }
 }

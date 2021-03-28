@@ -1,4 +1,4 @@
-package com.example.application.views.main.grammarOverview;
+package com.example.application.views.user.grammarOverview;
 
 import com.example.application.domain.AnswerGrammar;
 import com.example.application.domain.ExerciseGrammar;

@@ -1,4 +1,4 @@
-package com.example.application.views.main.vocabulary;
+package com.example.application.views.user.vocabulary;
 
 import com.example.application.domain.AnswerVocabulary;
 import com.example.application.domain.ExerciseVocabulary;
@@ -7,12 +7,10 @@ import com.example.application.service.AnswerVocabularyService;
 import com.example.application.service.AnswersService;
 import com.example.application.service.UserService;
 import com.example.application.service.VocabularyExerciseService;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.server.VaadinSession;
 
