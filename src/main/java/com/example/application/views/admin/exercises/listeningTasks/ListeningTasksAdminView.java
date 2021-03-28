@@ -8,32 +8,42 @@ import com.example.application.views.admin.exercises.readingTasks.EditReadingTas
 import com.example.application.views.admin.usersAdmin.CreateUserComponent;
 import com.example.application.views.admin.usersAdmin.EditUserComponent;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class ListeningTasksAdminView extends VerticalLayout {
-    public ListeningTasksAdminView(CreateAdminGridService createAdminGridService, ListeningService listeningService, LessonsService lessonsService){
-        NavbarAdmin navbarAdmin = new NavbarAdmin();
-        add(navbarAdmin);
-        Grid<Listening> grid = createAdminGridService.createGridListening();
+    private final ListeningService listeningService;
+    private final LessonsService lessonsService;
+    //UI components
+    private NavbarAdmin navbarAdmin;
+    private Grid<Listening> grid;
+    private HorizontalLayout modificationComponentDisplayed;
+
+    public ListeningTasksAdminView(CreateListeningTaskGridService createListeningTaskGridService, ListeningService listeningService, LessonsService lessonsService){
+        this.listeningService = listeningService;
+        this.lessonsService = lessonsService;
+        this.navbarAdmin = new NavbarAdmin();
+        this.grid = createListeningTaskGridService.createGridListening();
         CreateListeningTaskComponent createListeningTaskComponent = new CreateListeningTaskComponent(listeningService, lessonsService, grid);
-        grid.addItemClickListener(item -> editUserEvent(item.getItem(), lessonsService, listeningService, grid,createListeningTaskComponent, navbarAdmin));
-        this.add(navbarAdmin, createListeningTaskComponent, grid);
+        this.modificationComponentDisplayed = createListeningTaskComponent;
+        grid.addItemClickListener(item -> editUserEvent(item.getItem(),createListeningTaskComponent));
+        this.displayUIComponents();
     }
-    //Listening listening, LessonsService lessonsService, ListeningService listeningService, Grid<Listening> grid, CreateListeningTaskComponent createListeningTaskComponent, NavbarAdmin navbarAdmin
     private void editUserEvent(Listening item,
-                               LessonsService lessonsService,
-                               ListeningService listeningService,
-                               Grid<Listening> grid,
-                               CreateListeningTaskComponent createListeningTaskComponent,
-                               NavbarAdmin navbarAdmin) {
-        EditListeningTaskComponent editUserComponent = new EditListeningTaskComponent(item,
+                               CreateListeningTaskComponent createListeningTaskComponent) {
+        EditListeningTaskComponent editListeningTaskComponent = new EditListeningTaskComponent(item,
                 lessonsService,
                 listeningService,
                 grid,
                 createListeningTaskComponent,
                 navbarAdmin,
                 this);
+        this.modificationComponentDisplayed = editListeningTaskComponent;
         this.removeAll();
-        this.add(navbarAdmin,editUserComponent, grid);
+        this.displayUIComponents();
+    }
+
+    public void displayUIComponents(){
+        this.add(navbarAdmin, modificationComponentDisplayed, grid);
     }
 }

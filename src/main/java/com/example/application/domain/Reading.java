@@ -13,6 +13,8 @@ public class Reading implements Exercise {
     private String name;
     private String text;
 
+    private Boolean isHomework;
+
     @ManyToOne
     @JoinColumn(name="lesson_id")
     private Lesson lesson;
@@ -66,6 +68,14 @@ public class Reading implements Exercise {
 
     public void setExercisesReading(Set<ExerciseReading> exercisesReading) {
         this.exercisesReading = exercisesReading;
+    }
+
+    public Boolean getHomework() {
+        return isHomework;
+    }
+
+    public void setHomework(Boolean homework) {
+        isHomework = homework;
     }
 
     @Override

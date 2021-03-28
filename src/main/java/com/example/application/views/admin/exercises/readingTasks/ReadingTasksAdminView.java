@@ -10,10 +10,10 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class ReadingTasksAdminView extends VerticalLayout {
-    public ReadingTasksAdminView(CreateAdminGridService createAdminGridService, ReadingService readingService, LessonsService lessonsService){
+    public ReadingTasksAdminView(CreateReadingGridService createReadingGridService, ReadingService readingService, LessonsService lessonsService){
         NavbarAdmin navbarAdmin = new NavbarAdmin();
         add(navbarAdmin);
-        Grid<Reading> grid = createAdminGridService.createGridReading();
+        Grid<Reading> grid = createReadingGridService.createGridReading();
         CreateReadingTaskComponent createReadingTaskComponent = new CreateReadingTaskComponent(readingService, lessonsService, grid);
         grid.addItemClickListener(item ->editTeamEvent(item.getItem(), navbarAdmin, grid, lessonsService,readingService,createReadingTaskComponent));
         this.add(navbarAdmin, createReadingTaskComponent, grid);
