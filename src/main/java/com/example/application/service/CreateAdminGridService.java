@@ -66,54 +66,6 @@ public class CreateAdminGridService {
         return grid;
     }
 
-    public Grid<Reading> createGridReading(){
-        Grid<Reading> grid = new Grid<>();
-        grid.setItems(readingService.getAllReadings());
-        grid.addColumn(Reading::getId).setHeader("Id");
-        grid.addColumn(Reading::getName).setHeader("Name");
-        grid.addComponentColumn(this::createEditTextButton);
-        grid.addColumn(lessonsService::getStringNameIdByReading).setHeader("Lesson");
-        grid.addComponentColumn(item ->createRemoveButtonReading(grid, item, readingService)).setHeader("Delete reading");
-        return grid;
-    }
-    private Button createEditTextButton(Reading reading){
-        return new Button("Edit text", event->{
-            VaadinSession.getCurrent().setAttribute("readingId", reading.getId());
-            UI.getCurrent().navigate("admin/editTextReading");
-        });
-    }
-    public Grid<Listening> createGridListening(){
-        Grid<Listening> grid = new Grid<>();
-        grid.setItems(listeningService.getAllListings());
-        grid.addColumn(Listening::getId).setHeader("Id");
-        grid.addColumn(Listening::getName).setHeader("Name");
-        grid.addColumn(item -> lessonsService.getStringNameIdByListening(item)).setHeader("Lesson");
-        grid.addComponentColumn(item -> createRemoveButtonListening(grid, item)).setHeader("Delete listening task");
-        return grid;
-    }
-
-    public Grid<ExerciseGrammar> crateGridExerciseGrammar(){
-        Grid<ExerciseGrammar> grid = new Grid<>();
-        grid.setItems(grammarExerciseService.getAllGrammarExercises());
-        grid.addColumn(ExerciseGrammar::getTextStart).setHeader("Fist part");
-        grid.addColumn(ExerciseGrammar::getAnswers).setHeader("Answers");
-        grid.addColumn(ExerciseGrammar::getRightAnswer).setHeader("Right answer");
-        grid.addColumn(ExerciseGrammar::getTextEnd).setHeader("Second part");
-        grid.addColumn(item -> lessonsService.getStringNameIdByGrammarExercise(item)).setHeader("Lesson");
-        grid.addComponentColumn(item -> createRemoveButtonGrammarExercise(grid, item)).setHeader("Delete exercise");
-        return grid;
-    }
-    public Grid<ExerciseVocabulary> createGridExerciseVocabulary(){
-        Grid<ExerciseVocabulary> grid = new Grid<>();
-        grid.setItems(vocabularyExerciseService.getAllVocabularyExercises());
-        grid.addColumn(ExerciseVocabulary::getText).setHeader("Question text");
-        grid.addColumn(ExerciseVocabulary::getAnswer).setHeader("Answers sep by /");
-        grid.addColumn(ExerciseVocabulary::getRightAnswer).setHeader("Right answer");
-        grid.addColumn(item -> lessonsService.getStringNameIdByVocabularyExercise(item)).setHeader("Lesson");
-        grid.addComponentColumn(item -> createRemoveButtonExerciseVocabulary(grid, item));
-        return grid;
-    }
-
     public Grid<ExerciseReading> createGridExerciseReading(){
         Grid<ExerciseReading> grid = new Grid<>();
         grid.setItems(readingExercisesService.getAllReadingExercises());
@@ -121,16 +73,6 @@ public class CreateAdminGridService {
         grid.addColumn(ExerciseReading::getText).setHeader("Question");
         grid.addColumn(item -> readingService.getStringNameIdByReadingExercise(item)).setHeader("Reading task");
         grid.addComponentColumn(item-> createRemoveButtonExercisesReading(grid, item)).setHeader("Delete reading exercise");
-        return grid;
-    }
-
-    public Grid<ExerciseListening> createGridExerciseListening(){
-        Grid<ExerciseListening> grid = new Grid<>();
-        grid.setItems(listeningExerciseService.getAllListeningExercises());
-        grid.addColumn(ExerciseListening::getText).setHeader("Question");
-        grid.addColumn(ExerciseListening::getAnswers).setHeader("Answers");
-        grid.addColumn(item -> listeningService.getStringNameIdByListeningExercise(item)).setHeader("Listening task");
-        grid.addColumn(item-> createRemoveButtonExercisesListening(grid,item)).setHeader("Delete listening exercise");
         return grid;
     }
 
@@ -175,15 +117,6 @@ public class CreateAdminGridService {
         return grid;
     }
 
-    public Grid<ExerciseGrammar> createExerciseGrammarGridByLesson(Lesson lesson){
-        Grid<ExerciseGrammar> grid = new Grid<>();
-        grid.setItems(lesson.getExercisesGrammar());
-        grid.addColumn(ExerciseGrammar::getAnswers).setHeader("Possible answers");
-        grid.addColumn(ExerciseGrammar::getRightAnswer).setHeader("Right answer");
-        grid.addComponentColumn(this::createSeeTeamAnswersExercisesGrammar).setHeader("See answers");
-        return grid;
-    }
-
     public Grid<User> createUsersGridWithGrammarAnswers(List<User> users,
                                                         ExerciseGrammar ex){
         Grid<User> grid = new Grid<>();
@@ -214,37 +147,6 @@ public class CreateAdminGridService {
         grid.addColumn(ExerciseVocabulary::getRightAnswer).setHeader("Right answer");
         grid.addComponentColumn(this::createSeeTeamAnswersExercisesVocabulary).setHeader("See answers");
         return grid;
-    }
-
-    public Grid<Reading> createReadingTaskGridByLesson(Lesson lesson){
-        Grid<Reading> grid = new Grid<Reading>();
-        grid.setItems(lesson.getReading());
-        grid.addColumn(Reading::getName).setHeader("Reading task name");
-        grid.addComponentColumn(item -> createSeeAnswersButtonByReading(item)).setHeader("See exercises");
-        return grid;
-    }
-
-    public Button createSeeAnswersButtonByReading(Reading reading){
-        return new Button("See exercises", event->{
-            VaadinSession.getCurrent().setAttribute("readingId", reading.getId());
-            UI.getCurrent().navigate("admin/answers/questions/reading");
-        });
-    }
-
-    public Grid<ExerciseReading> createReadingExercisesGridByReading(Reading reading){
-        Grid<ExerciseReading> grid = new Grid<>();
-        grid.setItems(reading.getExercisesReading());
-        grid.addColumn(ExerciseReading::getAnswers).setHeader("Possible answers");
-        grid.addColumn(ExerciseReading::getRightAnswer).setHeader("Right answer");
-        grid.addComponentColumn(item->createSeeAnswersButtonExerciseReading(item));
-        return grid;
-    }
-    public Button createSeeAnswersButtonExerciseReading(ExerciseReading exerciseReading){
-        Button button = new Button("See answers", event-> {
-            VaadinSession.getCurrent().setAttribute("exerciseId", exerciseReading.getId());
-            UI.getCurrent().navigate("admin/answers/answers/reading");
-        });
-        return button;
     }
 
     public Grid<AnswerReading> createAnswersReadingGridByReading(ExerciseReading exerciseReading){
@@ -298,14 +200,6 @@ public class CreateAdminGridService {
         }
     }
 
-    private Button createSeeTeamAnswersExercisesGrammar(ExerciseGrammar exerciseGrammar){
-        Button button = new Button("See answers", event-> {
-            VaadinSession.getCurrent().setAttribute("grammarExerciseId", exerciseGrammar.getId());
-            UI.getCurrent().navigate("admin/answers/answers/grammar");
-        });
-        return button;
-    }
-
     public Button createSeeExercisesOrTasksButton(Exercise exercise){
         Button button = new Button("See exercises", event->{
             VaadinSession.getCurrent().setAttribute("exerciseId", exercise.getId());
@@ -319,65 +213,6 @@ public class CreateAdminGridService {
             ListDataProvider<ExerciseReading> dataProvider = (ListDataProvider<ExerciseReading>) grid.getDataProvider();
             dataProvider.getItems().remove(exerciseReading);
             readingExercisesService.delete(exerciseReading);
-            dataProvider.refreshAll();
-        });
-        return button;
-    }
-    public Button createRemoveButtonExerciseVocabulary(Grid<ExerciseVocabulary> grid, ExerciseVocabulary exerciseVocabulary){
-        Button button = new Button("Delete", event->{
-            ListDataProvider<ExerciseVocabulary> dataProvider = (ListDataProvider<ExerciseVocabulary>) grid.getDataProvider();
-            for(AnswerVocabulary answer:exerciseVocabulary.getAnswers()){
-                answerVocabularyService.delete(answer);
-            }
-            dataProvider.getItems().remove(exerciseVocabulary);
-            vocabularyExerciseService.delete(exerciseVocabulary);
-            dataProvider.refreshAll();
-        });
-        return button;
-
-    }
-
-    public Button createRemoveButtonExercisesListening(Grid<ExerciseListening> grid, ExerciseListening exerciseListening){
-        Button button = new Button("Delete", event->{
-            ListDataProvider<ExerciseListening> dataProvider =  (ListDataProvider<ExerciseListening>) grid.getDataProvider();
-            dataProvider.getItems().remove(exerciseListening);
-            listeningExerciseService.delete(exerciseListening);
-            dataProvider.refreshAll();
-        });
-        return button;
-    }
-
-    private Button createRemoveButtonGrammarExercise(Grid<ExerciseGrammar> grid, ExerciseGrammar exerciseGrammar){
-        Button button = new Button("Delete", event->{
-            //delete related answers
-            for(AnswerGrammar answerGrammar: exerciseGrammar.getAnswersGrammar()){
-                answerGrammarService.delete(answerGrammar);
-            }
-            ListDataProvider<ExerciseGrammar> dataProvider = (ListDataProvider<ExerciseGrammar>) grid.getDataProvider();
-            dataProvider.getItems().remove(exerciseGrammar);
-            grammarExerciseService.delete(exerciseGrammar);
-            dataProvider.refreshAll();
-        });
-        return button;
-    }
-
-    private Button createRemoveButtonListening(Grid<Listening> grid, Listening item) {
-        @SuppressWarnings("unchecked")
-        Button button = new Button("Delete", clickEvent -> {
-            ListDataProvider<Listening> dataProvider = (ListDataProvider<Listening>) grid.getDataProvider();
-            dataProvider.getItems().remove(item);
-            listeningService.delete(item);
-            dataProvider.refreshAll();
-        });
-        return button;
-    }
-
-    private Component createRemoveButtonReading(Grid<Reading> grid, Reading reading, ReadingService readingService){
-        @SuppressWarnings("unchecked")
-        Button button = new Button("Delete" , clickEvent ->{
-            ListDataProvider<Reading> dataProvider = (ListDataProvider<Reading>) grid.getDataProvider();
-            dataProvider.getItems().remove(reading);
-            readingService.delete(reading);
             dataProvider.refreshAll();
         });
         return button;

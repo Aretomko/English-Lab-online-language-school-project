@@ -17,6 +17,7 @@ public class ExerciseVocabulary implements Exercise{
     private String answer;
     @NotNull
     private String rightAnswer;
+    private Boolean isHomework;
 
     @ManyToOne(optional=false)
     @JoinColumn(name="lesson_id")
@@ -29,11 +30,12 @@ public class ExerciseVocabulary implements Exercise{
     public ExerciseVocabulary() {
     }
 
-    public ExerciseVocabulary(String text, String answer, String rightAnswer, Lesson lesson) {
+    public ExerciseVocabulary(String text, String answer, String rightAnswer, Lesson lesson, Boolean isHomework) {
         this.text = text;
         this.answer = answer;
         this.rightAnswer = rightAnswer;
         this.lesson = lesson;
+        this.isHomework = isHomework;
     }
 
     public Long getId() {
@@ -82,6 +84,14 @@ public class ExerciseVocabulary implements Exercise{
 
     public void setAnswers(Set<AnswerVocabulary> answers) {
         this.answers = answers;
+    }
+
+    public Boolean getHomework() {
+        return isHomework;
+    }
+
+    public void setHomework(Boolean homework) {
+        isHomework = homework;
     }
 
     @Override

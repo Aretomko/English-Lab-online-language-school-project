@@ -6,6 +6,7 @@ import com.example.application.service.ReadingService;
 import com.example.application.views.admin.NavbarAdmin;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.server.VaadinSession;
@@ -22,6 +23,7 @@ public class TextEditorReadingView extends VerticalLayout {
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setAlignItems(Alignment.CENTER);
         this.setWidth("100%");
+        Label explanationLabel = new Label("Каждий параграф должен заканчиватся на /");
         TextArea textArea = new TextArea();
         textArea.setWidth("80%");
         if(reading.getText()!=null) textArea.setValue(reading.getText())

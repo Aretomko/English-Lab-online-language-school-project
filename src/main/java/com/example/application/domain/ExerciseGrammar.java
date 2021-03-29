@@ -14,6 +14,7 @@ public class ExerciseGrammar implements Exercise {
     private String textEnd;
     private String answers;
     private String rightAnswer;
+    private Boolean isHomework;
 
     @ManyToOne(optional=false)
     @JoinColumn(name="lesson_id")
@@ -26,12 +27,13 @@ public class ExerciseGrammar implements Exercise {
 
     }
 
-    public ExerciseGrammar(String textStart, String textEnd, String answers, String rightAnswer,Lesson lesson) {
+    public ExerciseGrammar(String textStart, String textEnd, String answers, String rightAnswer, Lesson lesson, Boolean isHomework) {
         this.textStart = textStart;
         this.textEnd = textEnd;
         this.answers = answers;
         this.lesson = lesson;
         this.rightAnswer = rightAnswer;
+        this.isHomework = isHomework;
     }
 
     public Long getId() {
@@ -93,6 +95,14 @@ public class ExerciseGrammar implements Exercise {
 
     public void setRightAnswer(String rightAnswer) {
         this.rightAnswer = rightAnswer;
+    }
+
+    public Boolean getHomework() {
+        return isHomework;
+    }
+
+    public void setHomework(Boolean homework) {
+        isHomework = homework;
     }
 
     @Override

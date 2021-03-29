@@ -12,7 +12,7 @@ import com.vaadin.flow.server.VaadinSession;
 
 public class GrammarExerciseViewAdminAnswers extends VerticalLayout {
     public GrammarExerciseViewAdminAnswers(LessonsService lessonsService,
-                                           CreateAdminGridService createAdminGridService){
+                                           CreateAnswersViewAnswersGridService createAnswersViewAnswersGridService){
         //create navbar
         NavbarAdmin navbarAdmin = new NavbarAdmin();
         this.add(navbarAdmin);
@@ -23,7 +23,7 @@ public class GrammarExerciseViewAdminAnswers extends VerticalLayout {
         Label label = new Label("All grammar exercises for lesson: "+lesson.getName());
         this.add(label);
         //create grid with all grammarExercises related to the lesson
-        Grid<ExerciseGrammar> grid = createAdminGridService.createExerciseGrammarGridByLesson(lesson);
+        Grid<ExerciseGrammar> grid = createAnswersViewAnswersGridService.createExerciseGrammarGridByLesson(lesson);
         this.add(grid);
     }
 }

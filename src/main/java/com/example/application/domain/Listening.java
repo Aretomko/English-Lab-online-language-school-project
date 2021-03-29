@@ -11,6 +11,8 @@ public class Listening implements Exercise{
 
     private String name;
 
+    private Boolean isHomework;
+
     @ManyToOne
     @JoinColumn(name="lesson_id")
     private Lesson lesson;
@@ -21,9 +23,10 @@ public class Listening implements Exercise{
     public Listening() {
     }
 
-    public Listening(String name, Lesson lesson) {
+    public Listening(String name, Lesson lesson, Boolean isHomework) {
         this.name = name;
         this.lesson = lesson;
+        this.isHomework = isHomework;
     }
 
     public Long getId() {
@@ -56,6 +59,14 @@ public class Listening implements Exercise{
 
     public void setExerciseListening(Set<ExerciseListening> exerciseListening) {
         this.exerciseListening = exerciseListening;
+    }
+
+    public Boolean getHomework() {
+        return isHomework;
+    }
+
+    public void setHomework(Boolean homework) {
+        isHomework = homework;
     }
 
     @Override
