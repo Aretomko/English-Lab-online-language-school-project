@@ -19,9 +19,9 @@ import com.example.application.views.answers.grammar.GrammarAnswersViewAnswersAd
 import com.example.application.views.answers.grammar.GrammarExerciseViewAdminAnswers;
 import com.example.application.views.answers.LessonsViewAnswersAdmin;
 import com.example.application.views.answers.QuestionTypesViewAnswersAdmin;
-import com.example.application.views.answers.reading.ReadingAnswersViewAdminAnswers;
-import com.example.application.views.answers.reading.ReadingExercisesViewAdminAnswers;
-import com.example.application.views.answers.reading.ReadingTasksViewAdminAnswers;
+import com.example.application.views.answers.reading.readingAnswers.ReadingAnswersViewAdminAnswers;
+import com.example.application.views.answers.reading.readingExercises.ReadingExercisesViewAdminAnswers;
+import com.example.application.views.answers.reading.readingTasks.ReadingTasksViewAdminAnswers;
 import com.example.application.views.answers.vocabluary.VocabularyAnswersViewAnswersAdmin;
 import com.example.application.views.answers.vocabluary.VocabularyExerciseViewAdminAnswers;
 import com.example.application.views.user.MainView;

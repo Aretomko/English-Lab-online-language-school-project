@@ -1,5 +1,6 @@
 package com.example.application.views.admin.exercises.readingTasks;
 
+import com.example.application.domain.ExerciseGrammar;
 import com.example.application.domain.Reading;
 import com.example.application.service.LessonsService;
 import com.example.application.service.ReadingService;
@@ -29,6 +30,7 @@ public class CreateReadingGridService {
         grid.addColumn(Reading::getId).setHeader("Id");
         grid.addColumn(Reading::getName).setHeader("Name");
         grid.addComponentColumn(this::createEditTextButton);
+        grid.addColumn(Reading::getHomework).setHeader("Is Homework");
         grid.addColumn(lessonsService::getStringNameIdByReading).setHeader("Lesson");
         grid.addComponentColumn(item ->createRemoveButtonReading(grid, item, readingService)).setHeader("Delete reading");
         return grid;

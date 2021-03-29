@@ -29,6 +29,7 @@ public class CreateGrammarExerciseGridService {
         grid.addColumn(ExerciseGrammar::getAnswers).setHeader("Answers");
         grid.addColumn(ExerciseGrammar::getRightAnswer).setHeader("Right answer");
         grid.addColumn(ExerciseGrammar::getTextEnd).setHeader("Second part");
+        grid.addColumn(ExerciseGrammar::getHomework).setHeader("Is Homework");
         grid.addColumn(item -> lessonsService.getStringNameIdByGrammarExercise(item)).setHeader("Lesson");
         grid.addComponentColumn(item -> createRemoveButtonGrammarExercise(grid, item)).setHeader("Delete exercise");
         return grid;

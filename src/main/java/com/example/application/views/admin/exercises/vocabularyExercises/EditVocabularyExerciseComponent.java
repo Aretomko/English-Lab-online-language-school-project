@@ -70,7 +70,7 @@ public class EditVocabularyExerciseComponent extends HorizontalLayout {
             vocabularyExerciseAdminAdmin.removeAll();
             vocabularyExerciseAdminAdmin.add(navbarAdmin, createVocabularyExerciseComponent, grid);
         });
-        this.add(createLabel , question,answers,rightAnswer,lessonId, isHomework, submit);
+        this.add(createLabel , question,rightAnswer,lessonId, isHomework, submit);
         this.setWidth("100%");
         this.setPadding(true);
         this.setAlignItems(Alignment.BASELINE);

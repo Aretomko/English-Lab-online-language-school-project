@@ -10,12 +10,12 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class ListeningExercisesAdminView extends VerticalLayout {
-    public ListeningExercisesAdminView(CreateAdminGridService createAdminGridService,
+    public ListeningExercisesAdminView(CreateListeningExerciseGridService listeningExerciseGridService,
                                        ListeningExerciseService listeningExerciseService,
                                        ListeningService listeningService){
         NavbarAdmin navbarAdmin = new NavbarAdmin();
         add(navbarAdmin);
-        Grid<ExerciseListening> grid = createAdminGridService.createGridExerciseListening();
+        Grid<ExerciseListening> grid = listeningExerciseGridService.createGridExerciseListening();
         CreateListeningExerciseComponent createListeningExerciseComponent = new CreateListeningExerciseComponent(listeningExerciseService, listeningService, grid);
         grid.addItemClickListener(item -> editListeningExerciseEvent(item.getItem(), listeningService, listeningExerciseService,grid,navbarAdmin,createListeningExerciseComponent));
         this.add(navbarAdmin, createListeningExerciseComponent, grid);

@@ -56,6 +56,7 @@ public class EditGrammarExerciseComponent extends HorizontalLayout {
         rightAnswer = new TextField("right answer");
         textEnd = new TextField("end of the text");
         lessonId = new TextField("lesson id");
+        isHomework = new Checkbox("is homework");
         if(exerciseGrammar.getTextStart()!=null) textStart.setValue(exerciseGrammar.getTextStart())
                 ;
         else textStart.setPlaceholder("net set")

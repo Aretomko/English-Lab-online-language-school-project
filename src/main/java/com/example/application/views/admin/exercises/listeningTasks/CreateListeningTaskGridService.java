@@ -1,5 +1,6 @@
 package com.example.application.views.admin.exercises.listeningTasks;
 
+import com.example.application.domain.ExerciseGrammar;
 import com.example.application.domain.Listening;
 import com.example.application.service.LessonsService;
 import com.example.application.service.ListeningService;
@@ -23,6 +24,7 @@ public class CreateListeningTaskGridService {
         grid.setItems(listeningService.getAllListings());
         grid.addColumn(Listening::getId).setHeader("Id");
         grid.addColumn(Listening::getName).setHeader("Name");
+        grid.addColumn(Listening::getHomework).setHeader("Is Homework");
         grid.addColumn(item -> lessonsService.getStringNameIdByListening(item)).setHeader("Lesson");
         grid.addComponentColumn(item -> createRemoveButtonListening(grid, item)).setHeader("Delete listening task");
         return grid;

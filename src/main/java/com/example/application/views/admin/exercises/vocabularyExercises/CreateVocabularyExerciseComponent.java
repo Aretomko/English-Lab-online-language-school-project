@@ -9,6 +9,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -33,7 +34,7 @@ public class    CreateVocabularyExerciseComponent extends HorizontalLayout {
         this.vocabularyExerciseService = vocabularyExerciseService;
         this.lessonsService = lessonsService;
         this.grid = grid;
-        //UI inialization
+        //UI initialization
         this.createLabel = new Label("Create new vocabulary exercise");
         createLabel.setHeight("wrap-content");
         createLabel.getStyle().set("font","400 13.3333px Arial");
@@ -48,13 +49,21 @@ public class    CreateVocabularyExerciseComponent extends HorizontalLayout {
         submit = new Button("Create" , event -> {
             this.createVocabularyExercise();
         });
-        this.add(createLabel , question, answers,rightAnswer, lessonId, isHomework, submit);
+        this.add(createLabel , question,rightAnswer, lessonId, isHomework, submit);
         this.setWidth("100%");
         this.setPadding(true);
         this.setAlignItems(Alignment.BASELINE);
     }
     public void createVocabularyExercise(){
-        vocabularyExerciseService.save(new ExerciseVocabulary(question.getValue(),answers.getValue(),rightAnswer.getValue(),lessonsService.findLessonById(lessonId.getValue()), isHomework.getValue()));
+        try {
+            vocabularyExerciseService.save(new ExerciseVocabulary(question.getValue(),
+                    answers.getValue(),
+                    rightAnswer.getValue(),
+                    lessonsService.findLessonById(lessonId.getValue()),
+                    isHomework.getValue()));
+        }catch (RuntimeException ex){
+            Notification.show("Wrong id provided! Id should be just an integer");
+        }
         grid.setItems(vocabularyExerciseService.getAllVocabularyExercises());
         question.setValue("");
         answers.setValue("");

@@ -7,6 +7,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
@@ -55,12 +56,16 @@ public class CreateGrammarExerciseComponent extends HorizontalLayout {
     }
 
     public void createGrammarEx(){
-        grammarExerciseService.save(new ExerciseGrammar(textStart.getValue(),
-                textEnd.getValue(),
-                answers.getValue(),
-                rightAnswer.getValue(),
-                lessonsService.findLessonById(lessonId.getValue()),
-                isHomework.getValue()));
+        try {
+            grammarExerciseService.save(new ExerciseGrammar(textStart.getValue(),
+                    textEnd.getValue(),
+                    answers.getValue(),
+                    rightAnswer.getValue(),
+                    lessonsService.findLessonById(lessonId.getValue()),
+                    isHomework.getValue()));
+        }catch (RuntimeException ex){
+            Notification.show("Wrong id provided! Id should be just an integer number");
+        }
         grid.setItems(grammarExerciseService.getAllGrammarExercises());
         textStart.setValue("");
         textEnd.setValue("");

@@ -22,8 +22,10 @@ public class Reading implements Exercise {
     @OneToMany(mappedBy="reading", fetch = FetchType.EAGER)
     private Set<ExerciseReading> exercisesReading;
 
+    public Reading() {
+    }
 
-    public Reading(String name, Lesson lesson,Boolean isHomework) {
+    public Reading(String name, Lesson lesson, Boolean isHomework) {
         this.name = name;
         this.lesson = lesson;
         this.isHomework = isHomework;

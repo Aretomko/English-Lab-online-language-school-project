@@ -9,6 +9,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -50,7 +51,11 @@ public class CreateListeningTaskComponent extends HorizontalLayout {
         this.setAlignItems(Alignment.BASELINE);
     }
     public void createListening(){
-        listeningService.save(new Listening(listeningNameTextField.getValue(), lessonsService.findLessonById(lessonIdTextField.getValue()), isHomework.getValue()));
+        try {
+            listeningService.save(new Listening(listeningNameTextField.getValue(), lessonsService.findLessonById(lessonIdTextField.getValue()), isHomework.getValue()));
+        }catch (RuntimeException ex){
+            Notification.show("Wrong id provided! Id should be just an integer");
+        }
         grid.setItems(listeningService.getAllListings());
         listeningNameTextField.setValue("");
         lessonIdTextField.setValue("");

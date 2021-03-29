@@ -32,7 +32,7 @@ public class CreateReadingExerciseComponent extends HorizontalLayout {
             try {
                 readingExercisesService.save(new ExerciseReading(question.getValue(), answers.getValue(),rightAnswer.getValue(), readingService.findReadingById(readingId.getValue())));
             }catch (RuntimeException ex){
-                this.add(new Label("Wrong id provided"));
+                this.add(new Label("Wrong id provided! Id should be just an integer"));
             }
             grid.setItems(readingExercisesService.getAllReadingExercises());
             question.setValue("");

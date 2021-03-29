@@ -1,6 +1,7 @@
 package com.example.application.views.admin.exercises.vocabularyExercises;
 
 import com.example.application.domain.AnswerVocabulary;
+import com.example.application.domain.ExerciseGrammar;
 import com.example.application.domain.ExerciseVocabulary;
 import com.example.application.service.AnswerVocabularyService;
 import com.example.application.service.LessonsService;
@@ -30,8 +31,9 @@ public class CreateVocabularyExercisesGridService {
         this.grid = new Grid<>();
         grid.setItems(vocabularyExerciseService.getAllVocabularyExercises());
         grid.addColumn(ExerciseVocabulary::getText).setHeader("Question text");
-        grid.addColumn(ExerciseVocabulary::getAnswer).setHeader("Answers sep by /");
+        //grid.addColumn(ExerciseVocabulary::getAnswer).setHeader("Answers sep by /");
         grid.addColumn(ExerciseVocabulary::getRightAnswer).setHeader("Right answer");
+        grid.addColumn(ExerciseVocabulary::getHomework).setHeader("Is Homework");
         grid.addColumn(item -> lessonsService.getStringNameIdByVocabularyExercise(item)).setHeader("Lesson");
         grid.addComponentColumn(item -> createRemoveButtonExerciseVocabulary(grid, item));
         return grid;

@@ -11,6 +11,8 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class GrammarExercisesAdminView extends VerticalLayout {
+    private final GrammarExerciseService grammarExerciseService;
+    private final LessonsService lessonsService;
     //UI components
     private NavbarAdmin navbarAdmin;
     private Grid<ExerciseGrammar> grid;
@@ -19,21 +21,27 @@ public class GrammarExercisesAdminView extends VerticalLayout {
     public GrammarExercisesAdminView(CreateGrammarExerciseGridService createGrammarExerciseGridService,
                                      GrammarExerciseService grammarExerciseService,
                                      LessonsService lessonsService){
+        this.grammarExerciseService = grammarExerciseService;
+        this.lessonsService = lessonsService;
+        //UI initialization
         this.navbarAdmin = new NavbarAdmin();
         this.grid = createGrammarExerciseGridService.crateGridExerciseGrammar();
         CreateGrammarExerciseComponent createGrammarExerciseComponent = new CreateGrammarExerciseComponent(grammarExerciseService, lessonsService, grid);
         this.modificationComponentDisplayed = createGrammarExerciseComponent;
-        grid.addItemClickListener(item -> editGrammarExerciseEvent(item.getItem(),lessonsService, grammarExerciseService,grid,navbarAdmin,createGrammarExerciseComponent));
+        grid.addItemClickListener(item -> editGrammarExerciseEvent(item.getItem(),createGrammarExerciseComponent));
         this.addUIComponents();
     }
 
     private void editGrammarExerciseEvent(ExerciseGrammar exerciseGrammar,
-                                          LessonsService lessonsService,
-                                          GrammarExerciseService grammarExerciseService,
-                                          Grid<ExerciseGrammar> grid,
-                                          NavbarAdmin navbarAdmin,
                                           CreateGrammarExerciseComponent createGrammarExerciseComponent) {
-        EditGrammarExerciseComponent editGrammarExerciseComponent = new EditGrammarExerciseComponent(exerciseGrammar, lessonsService,grammarExerciseService, grid, navbarAdmin, createGrammarExerciseComponent, this);
+        String test = "fdsfds/sdfsdf".trim();
+        EditGrammarExerciseComponent editGrammarExerciseComponent = new EditGrammarExerciseComponent(exerciseGrammar,
+                lessonsService,
+                grammarExerciseService,
+                grid,
+                navbarAdmin,
+                createGrammarExerciseComponent,
+                this);
         this.modificationComponentDisplayed = editGrammarExerciseComponent;
         this.removeAll();
         this.addUIComponents();

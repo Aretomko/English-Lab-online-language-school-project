@@ -1,8 +1,7 @@
-package com.example.application.views.answers.reading;
+package com.example.application.views.answers.reading.readingTasks;
 
 import com.example.application.domain.Lesson;
 import com.example.application.domain.Reading;
-import com.example.application.service.CreateAdminGridService;
 import com.example.application.service.LessonsService;
 import com.example.application.views.admin.NavbarAdmin;
 import com.vaadin.flow.component.grid.Grid;
@@ -12,7 +11,7 @@ import com.vaadin.flow.server.VaadinSession;
 
 public class ReadingTasksViewAdminAnswers extends VerticalLayout {
     public ReadingTasksViewAdminAnswers(LessonsService lessonsService,
-                                        CreateAdminGridService createAdminGridService) {
+                                        CreateReadingTasksAdminAnswersGridService createReadingTasksAdminAnswersGridService) {
         //create navbar
         NavbarAdmin navbarAdmin = new NavbarAdmin();
         this.add(navbarAdmin);
@@ -22,7 +21,7 @@ public class ReadingTasksViewAdminAnswers extends VerticalLayout {
         //create explanation label
         Label label = new Label("All reading tasks for lesson: "+lesson.getName());
         this.add(label);
-        Grid<Reading> grid = createAdminGridService.createReadingTaskGridByLesson(lesson);
+        Grid<Reading> grid = createReadingTasksAdminAnswersGridService.createReadingTaskGridByLesson(lesson);
         this.add(grid);
     }
 }

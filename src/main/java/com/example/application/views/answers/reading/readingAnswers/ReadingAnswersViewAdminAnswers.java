@@ -1,4 +1,4 @@
-package com.example.application.views.answers.reading;
+package com.example.application.views.answers.reading.readingAnswers;
 
 import com.example.application.domain.AnswerReading;
 import com.example.application.domain.ExerciseGrammar;
@@ -14,7 +14,7 @@ import com.vaadin.flow.server.VaadinSession;
 
 public class ReadingAnswersViewAdminAnswers extends VerticalLayout {
     public ReadingAnswersViewAdminAnswers(ReadingExercisesService readingExercisesService,
-                                          CreateAdminGridService createAdminGridService){
+                                          CreateReadingAnswerAdminAnswersGridService createReadingAnswerAdminAnswersGridService){
         //create navbar
         NavbarAdmin navbarAdmin = new NavbarAdmin();
         this.add(navbarAdmin);
@@ -25,7 +25,7 @@ public class ReadingAnswersViewAdminAnswers extends VerticalLayout {
         Label label = new Label("All answers for exercise: "+ exerciseReading.getId());
         this.add(label);
         //create grid with all grammarExercises related to the lesson
-        Grid<AnswerReading> grid = createAdminGridService.createAnswersReadingGridByReading(exerciseReading);
+        Grid<AnswerReading> grid = createReadingAnswerAdminAnswersGridService.createAnswersReadingGridByReading(exerciseReading);
         this.add(grid);
     }
 }

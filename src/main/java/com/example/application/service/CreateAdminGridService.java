@@ -112,16 +112,6 @@ public class CreateAdminGridService {
         return grid;
     }
 
-    public Grid<ExerciseListening> createGridExerciseListening(){
-        Grid<ExerciseListening> grid = new Grid<>();
-        grid.setItems(listeningExerciseService.getAllListeningExercises());
-        grid.addColumn(ExerciseListening::getText).setHeader("Question");
-        grid.addColumn(ExerciseListening::getAnswers).setHeader("Answers");
-        grid.addColumn(item -> listeningService.getStringNameIdByListeningExercise(item)).setHeader("Listening task");
-        grid.addColumn(item-> createRemoveButtonExercisesListening(grid,item)).setHeader("Delete listening exercise");
-        return grid;
-    }
-
     public Grid<Lesson> createLessonsGridAnswersAdmin(Team team){
         Grid<Lesson> grid = new Grid<>();
         //find items for the grid
@@ -163,15 +153,6 @@ public class CreateAdminGridService {
         return grid;
     }
 
-    public Grid<ExerciseGrammar> createExerciseGrammarGridByLesson(Lesson lesson){
-        Grid<ExerciseGrammar> grid = new Grid<>();
-        grid.setItems(lesson.getExercisesGrammar());
-        grid.addColumn(ExerciseGrammar::getAnswers).setHeader("Possible answers");
-        grid.addColumn(ExerciseGrammar::getRightAnswer).setHeader("Right answer");
-        grid.addComponentColumn(this::createSeeTeamAnswersExercisesGrammar).setHeader("See answers");
-        return grid;
-    }
-
     public Grid<User> createUsersGridWithGrammarAnswers(List<User> users,
                                                         ExerciseGrammar ex){
         Grid<User> grid = new Grid<>();
@@ -202,37 +183,6 @@ public class CreateAdminGridService {
         grid.addColumn(ExerciseVocabulary::getRightAnswer).setHeader("Right answer");
         grid.addComponentColumn(this::createSeeTeamAnswersExercisesVocabulary).setHeader("See answers");
         return grid;
-    }
-
-    public Grid<Reading> createReadingTaskGridByLesson(Lesson lesson){
-        Grid<Reading> grid = new Grid<Reading>();
-        grid.setItems(lesson.getReading());
-        grid.addColumn(Reading::getName).setHeader("Reading task name");
-        grid.addComponentColumn(item -> createSeeAnswersButtonByReading(item)).setHeader("See exercises");
-        return grid;
-    }
-
-    public Button createSeeAnswersButtonByReading(Reading reading){
-        return new Button("See exercises", event->{
-            VaadinSession.getCurrent().setAttribute("readingId", reading.getId());
-            UI.getCurrent().navigate("admin/answers/questions/reading");
-        });
-    }
-
-    public Grid<ExerciseReading> createReadingExercisesGridByReading(Reading reading){
-        Grid<ExerciseReading> grid = new Grid<>();
-        grid.setItems(reading.getExercisesReading());
-        grid.addColumn(ExerciseReading::getAnswers).setHeader("Possible answers");
-        grid.addColumn(ExerciseReading::getRightAnswer).setHeader("Right answer");
-        grid.addComponentColumn(item->createSeeAnswersButtonExerciseReading(item));
-        return grid;
-    }
-    public Button createSeeAnswersButtonExerciseReading(ExerciseReading exerciseReading){
-        Button button = new Button("See answers", event-> {
-            VaadinSession.getCurrent().setAttribute("exerciseId", exerciseReading.getId());
-            UI.getCurrent().navigate("admin/answers/answers/reading");
-        });
-        return button;
     }
 
     public Grid<AnswerReading> createAnswersReadingGridByReading(ExerciseReading exerciseReading){
@@ -286,14 +236,6 @@ public class CreateAdminGridService {
         }
     }
 
-    private Button createSeeTeamAnswersExercisesGrammar(ExerciseGrammar exerciseGrammar){
-        Button button = new Button("See answers", event-> {
-            VaadinSession.getCurrent().setAttribute("grammarExerciseId", exerciseGrammar.getId());
-            UI.getCurrent().navigate("admin/answers/answers/grammar");
-        });
-        return button;
-    }
-
     public Button createSeeExercisesOrTasksButton(Exercise exercise){
         Button button = new Button("See exercises", event->{
             VaadinSession.getCurrent().setAttribute("exerciseId", exercise.getId());
@@ -311,17 +253,6 @@ public class CreateAdminGridService {
         });
         return button;
     }
-
-    public Button createRemoveButtonExercisesListening(Grid<ExerciseListening> grid, ExerciseListening exerciseListening){
-        Button button = new Button("Delete", event->{
-            ListDataProvider<ExerciseListening> dataProvider =  (ListDataProvider<ExerciseListening>) grid.getDataProvider();
-            dataProvider.getItems().remove(exerciseListening);
-            listeningExerciseService.delete(exerciseListening);
-            dataProvider.refreshAll();
-        });
-        return button;
-    }
-
 
     private Button createRemoveButtonCourses(Grid<Course> grid, Course item, TeamService teamService) {
         @SuppressWarnings("unchecked")

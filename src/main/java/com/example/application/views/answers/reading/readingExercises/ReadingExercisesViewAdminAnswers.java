@@ -1,4 +1,4 @@
-package com.example.application.views.answers.reading;
+package com.example.application.views.answers.reading.readingExercises;
 
 import com.example.application.domain.ExerciseReading;
 import com.example.application.domain.Lesson;
@@ -13,8 +13,10 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.server.VaadinSession;
 
 public class ReadingExercisesViewAdminAnswers extends VerticalLayout {
+
+
     public ReadingExercisesViewAdminAnswers(ReadingService readingService,
-                                            CreateAdminGridService createAdminGridService){
+                                            CreateReadingExercisesAdminAnswersGridService createReadingExercisesAdminAnswersGridService){
         //create navbar
         NavbarAdmin navbarAdmin = new NavbarAdmin();
         this.add(navbarAdmin);
@@ -24,7 +26,7 @@ public class ReadingExercisesViewAdminAnswers extends VerticalLayout {
         //create explanation label
         Label label = new Label("All reading exercises for reading task: "+ reading.getName());
         this.add(label);
-        Grid<ExerciseReading> grid = createAdminGridService.createReadingExercisesGridByReading(reading);
+        Grid<ExerciseReading> grid = createReadingExercisesAdminAnswersGridService.createReadingExercisesGridByReading(reading);
         this.add(grid);
     }
 
