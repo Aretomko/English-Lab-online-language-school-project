@@ -153,18 +153,6 @@ public class CreateAdminGridService {
         return grid;
     }
 
-    public Grid<User> createUsersGridWithGrammarAnswers(List<User> users,
-                                                        ExerciseGrammar ex){
-        Grid<User> grid = new Grid<>();
-        grid.setItems(users);
-        grid.addColumn(User::getRealN).setHeader("Name");
-        grid.addColumn(User::getSurname).setHeader("Surname");
-        grid.addComponentColumn(item -> new Label(ex.getRightAnswer())).setHeader("Right answer");
-        grid.addComponentColumn(item -> new Label(ex.getAnswers())).setHeader("Possible answers");
-        grid.addComponentColumn(item -> this.getGrammarExerciseAnswer(item,ex)).setHeader("Answer");
-        return grid;
-    }
-
     public Grid<User> createUserGridWithVocabularyAnswers(List<User> users,
                                                           ExerciseVocabulary exerciseVocabulary){
         Grid<User> grid = new Grid<>();
@@ -213,15 +201,6 @@ public class CreateAdminGridService {
                 .filter(i-> !i.getExerciseVocabulary().equals(exerciseVocabulary))
                 .collect(Collectors.toList());
         return receiveOutputAnswers(answers,exerciseVocabulary);
-    }
-
-    private Component getGrammarExerciseAnswer(User user,
-                                               ExerciseGrammar exerciseGrammar){
-        List<Answer> answers = user.getAnswersGrammar()
-                .stream()
-                .filter(i->i.getExerciseGrammar().equals(exerciseGrammar))
-                .collect(Collectors.toList());
-        return receiveOutputAnswers(answers,exerciseGrammar);
     }
 
     private Component receiveOutputAnswers(List<Answer> answers,

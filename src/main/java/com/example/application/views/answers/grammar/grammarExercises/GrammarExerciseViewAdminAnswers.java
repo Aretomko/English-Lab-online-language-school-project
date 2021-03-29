@@ -1,8 +1,7 @@
-package com.example.application.views.answers.grammar;
+package com.example.application.views.answers.grammar.grammarExercises;
 
 import com.example.application.domain.ExerciseGrammar;
 import com.example.application.domain.Lesson;
-import com.example.application.service.CreateAdminGridService;
 import com.example.application.service.LessonsService;
 import com.example.application.views.admin.NavbarAdmin;
 import com.vaadin.flow.component.grid.Grid;
@@ -12,7 +11,7 @@ import com.vaadin.flow.server.VaadinSession;
 
 public class GrammarExerciseViewAdminAnswers extends VerticalLayout {
     public GrammarExerciseViewAdminAnswers(LessonsService lessonsService,
-                                           CreateAnswersViewAnswersGridService createAnswersViewAnswersGridService){
+                                           CreateGrammarExerciseAdminAnswersGridService createGrammarExerciseAdminAnswersGridService){
         //create navbar
         NavbarAdmin navbarAdmin = new NavbarAdmin();
         this.add(navbarAdmin);
@@ -23,7 +22,7 @@ public class GrammarExerciseViewAdminAnswers extends VerticalLayout {
         Label label = new Label("All grammar exercises for lesson: "+lesson.getName());
         this.add(label);
         //create grid with all grammarExercises related to the lesson
-        Grid<ExerciseGrammar> grid = createAnswersViewAnswersGridService.createExerciseGrammarGridByLesson(lesson);
+        Grid<ExerciseGrammar> grid = createGrammarExerciseAdminAnswersGridService.createExerciseGrammarGridByLesson(lesson);
         this.add(grid);
     }
 }

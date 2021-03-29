@@ -8,13 +8,16 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.server.VaadinSession;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
+import java.util.stream.Collectors;
+
 @Service
 public class CreateReadingExercisesAdminAnswersGridService {
     private Grid<ExerciseReading> grid;
 
     public Grid<ExerciseReading> createReadingExercisesGridByReading(Reading reading){
         this.grid = new Grid<>();
-        grid.setItems(reading.getExercisesReading());
+        grid.setItems(reading.getExercisesReading().stream().sorted(Comparator.comparing(ExerciseReading::getId)).collect(Collectors.toList()));
         grid.addColumn(ExerciseReading::getAnswers).setHeader("Possible answers");
         grid.addColumn(ExerciseReading::getRightAnswer).setHeader("Right answer");
         grid.addComponentColumn(item->createSeeAnswersButtonExerciseReading(item));

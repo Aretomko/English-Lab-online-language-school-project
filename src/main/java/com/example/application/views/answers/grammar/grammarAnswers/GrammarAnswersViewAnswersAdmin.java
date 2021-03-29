@@ -1,4 +1,4 @@
-package com.example.application.views.answers.grammar;
+package com.example.application.views.answers.grammar.grammarAnswers;
 
 import com.example.application.domain.ExerciseGrammar;
 import com.example.application.domain.Team;
@@ -16,7 +16,7 @@ import java.util.List;
 
 public class GrammarAnswersViewAnswersAdmin extends VerticalLayout {
     public GrammarAnswersViewAnswersAdmin(TeamService teamService,
-                                          CreateAdminGridService createAdminGridService,
+                                          CreateGrammarAnswersGridService createGrammarAnswersGridService,
                                           GrammarExerciseService grammarExerciseService){
         //create navbar
         NavbarAdmin navbarAdmin = new NavbarAdmin();
@@ -27,7 +27,7 @@ public class GrammarAnswersViewAnswersAdmin extends VerticalLayout {
         String grammarExerciseId = VaadinSession.getCurrent().getAttribute("grammarExerciseId").toString();
         ExerciseGrammar grammarExercise = grammarExerciseService.getById(grammarExerciseId);
         List<User> users = team.getUsers();
-        Grid<User> grid = createAdminGridService.createUsersGridWithGrammarAnswers(users, grammarExercise);
+        Grid<User> grid = createGrammarAnswersGridService.createUsersGridWithGrammarAnswers(users, grammarExercise);
         //create explanation
         this.add(new Label("Answers for exercise "+grammarExercise.getId()+ " team " + team.getName()));
         this.add(grid);
