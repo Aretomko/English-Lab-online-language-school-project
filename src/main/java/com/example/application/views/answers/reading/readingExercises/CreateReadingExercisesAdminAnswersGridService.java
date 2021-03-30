@@ -20,7 +20,7 @@ public class CreateReadingExercisesAdminAnswersGridService {
         grid.setItems(reading.getExercisesReading().stream().sorted(Comparator.comparing(ExerciseReading::getId)).collect(Collectors.toList()));
         grid.addColumn(ExerciseReading::getAnswers).setHeader("Possible answers");
         grid.addColumn(ExerciseReading::getRightAnswer).setHeader("Right answer");
-        grid.addComponentColumn(item->createSeeAnswersButtonExerciseReading(item));
+        grid.addComponentColumn(item->createSeeAnswersButtonExerciseReading(item)).setHeader("See answers");
         return grid;
     }
     private Button createSeeAnswersButtonExerciseReading(ExerciseReading exerciseReading){

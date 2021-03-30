@@ -19,6 +19,9 @@ import com.example.application.views.answers.grammar.grammarAnswers.GrammarAnswe
 import com.example.application.views.answers.grammar.grammarExercises.GrammarExerciseViewAdminAnswers;
 import com.example.application.views.answers.LessonsViewAnswersAdmin;
 import com.example.application.views.answers.QuestionTypesViewAnswersAdmin;
+import com.example.application.views.answers.listening.listeningTasks.ListeningTasksViewAdminAnswers;
+import com.example.application.views.answers.listening.listenitingAnswers.ListeningAnswersViewAdminAnswers;
+import com.example.application.views.answers.listening.listenitngExercises.ListeningExercisesViewAdminAnswers;
 import com.example.application.views.answers.reading.readingAnswers.ReadingAnswersViewAdminAnswers;
 import com.example.application.views.answers.reading.readingExercises.ReadingExercisesViewAdminAnswers;
 import com.example.application.views.answers.reading.readingTasks.ReadingTasksViewAdminAnswers;
@@ -126,6 +129,9 @@ public class AuthService {
             routes.add(new AuthorisedRoute("admin/answers/task/reading", ReadingTasksViewAdminAnswers.class));
             routes.add(new AuthorisedRoute("admin/answers/questions/reading", ReadingExercisesViewAdminAnswers.class));
             routes.add(new AuthorisedRoute("admin/answers/answers/reading", ReadingAnswersViewAdminAnswers.class));
+            routes.add(new AuthorisedRoute("admin/answers/task/listening", ListeningTasksViewAdminAnswers.class));
+            routes.add(new AuthorisedRoute("admin/answers/questions/listening", ListeningExercisesViewAdminAnswers.class));
+            routes.add(new AuthorisedRoute("admin/answers/answers/listening", ListeningAnswersViewAdminAnswers.class));
             routes.add(new AuthorisedRoute("admin/editTextReading", TextEditorReadingView.class));
         }
         return routes;

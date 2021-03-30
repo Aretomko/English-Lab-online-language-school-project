@@ -22,4 +22,9 @@ public class ListeningExerciseService {
     public List<ExerciseListening> getAllListeningExercises(){
         return listeningExerciseRepo.findAll();
     }
+    public ExerciseListening getListeningExerciseById(String id){
+        Long longId = Long.valueOf(id.trim());
+        ExerciseListening exerciseListening = this.listeningExerciseRepo.findById(longId).orElse(null);
+        return exerciseListening;
+    }
 }
