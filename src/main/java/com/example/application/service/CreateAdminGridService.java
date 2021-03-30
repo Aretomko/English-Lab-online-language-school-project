@@ -49,42 +49,6 @@ public class CreateAdminGridService {
         this.answerGrammarService = answerGrammarService;
     }
 
-    public Grid<User> createGridUsers(){
-        Grid<User> grid = new Grid<>();
-        grid.setItems(userService.getAllUsers());
-        grid.addColumn(User::getUsername).setHeader("Id");
-        grid.addColumn(User::getRealN).setHeader("Name");
-        grid.addColumn(User::getSurname).setHeader("Surname");
-        grid.addColumn(User::getPassword).setHeader("Password");
-        grid.addColumn(item -> teamService.getTemName(item)).setHeader("Select team");
-        grid.addComponentColumn(item -> createRemoveButtonUsers(grid, item, userService)).setHeader("Delete user");
-        return grid;
-    }
-    public Grid<Team> createGridTeams(){
-        Grid<Team> grid = new Grid<>();
-        grid.setItems(teamService.getAllTeams());
-        grid.addColumn(Team::getName).setHeader("Team name");
-        grid.addColumn(Team::getSchedule).setHeader("Team schedule");
-        grid.addColumn(item -> courseService.getStringName(item)).setHeader("Course");
-        grid.addComponentColumn(this::createAnswerInfoButton).setHeader("See answers");
-        grid.addComponentColumn(item -> createRemoveButtonTeams(grid, item, teamService)).setHeader("Delete team");
-        return grid;
-    }
-
-    private Button createAnswerInfoButton(Team team){
-        Button button = new Button("Answers", event->{
-            VaadinSession.getCurrent().setAttribute("teamId", team.getId());
-            UI.getCurrent().navigate("admin/answers");
-        });
-        return button;
-    }
-    public Grid<Course> createGridCourses(){
-        Grid<Course> grid = new Grid<>();
-        grid.setItems(courseService.getAllCourses());
-        grid.addColumn(Course::getName).setHeader("Course name");
-        grid.addComponentColumn(item -> createRemoveButtonCourses(grid, item, teamService)).setHeader("Delete team");
-        return grid;
-    }
     public Grid<Lesson> createGridLessons(){
         Grid<Lesson> grid = new Grid<>();
         grid.setItems(lessonsService.getAllLessons());
@@ -182,47 +146,12 @@ public class CreateAdminGridService {
         return button;
     }
 
-    private Button createRemoveButtonCourses(Grid<Course> grid, Course item, TeamService teamService) {
-        @SuppressWarnings("unchecked")
-        Button button = new Button("Delete", clickEvent -> {
-            ListDataProvider<Course> dataProvider = (ListDataProvider<Course>) grid.getDataProvider();
-            dataProvider.getItems().remove(item);
-            courseService.delete(item);
-            dataProvider.refreshAll();
-        });
-        return button;
-    }
     private Button createRemoveButtonLessons(Grid<Lesson> grid, Lesson lesson, LessonsService lessonsService) {
         @SuppressWarnings("unchecked")
         Button button = new Button("Delete", clickEvent -> {
             ListDataProvider<Lesson> dataProvider = (ListDataProvider<Lesson>) grid.getDataProvider();
             dataProvider.getItems().remove(lesson);
             lessonsService.delete(lesson);
-            dataProvider.refreshAll();
-        });
-        return button;
-    }
-
-    private Component createRemoveButtonTeams(Grid<Team> grid, Team item, TeamService teamService) {
-        @SuppressWarnings("unchecked")
-        Button button = new Button("Delete", clickEvent -> {
-            ListDataProvider<Team> dataProvider = (ListDataProvider<Team>) grid.getDataProvider();
-            dataProvider.getItems().remove(item);
-            teamService.deleteTeamByName(item.getName());
-            dataProvider.refreshAll();
-        });
-        return button;
-    }
-
-    private Button createRemoveButtonUsers(Grid<User> grid, User item, UserService userService) {
-        @SuppressWarnings("unchecked")
-        Button button = new Button("Delete", clickEvent -> {
-            ListDataProvider<User> dataProvider = (ListDataProvider<User>) grid.getDataProvider();
-            dataProvider.getItems().remove(item);
-            userService.deleteUserByUsername(item.getUsername());
-            //delete all answers connected with the user
-            answerVocabularyService.deleteAll(item.getAnswersVocabulary());
-
             dataProvider.refreshAll();
         });
         return button;

@@ -11,30 +11,64 @@ import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 
 public class  CreateTeamComponent extends HorizontalLayout {
+    //dependencies
+    private final CourseService courseService;
+    private final TeamService teamService;
+    private final Grid<Team> grid;
+    //UI elements
+    private Label editLabel;
+    private TextField teamNameTextField;
+    private TextField teamScheduleTextField;
+    private Select<String> courseSelect;
+
     public CreateTeamComponent(CourseService courseService, TeamService teamService, Grid grid){
-        Label editLabel = new Label("Create new group");
-        editLabel.setHeight("wrap-content");
-        editLabel.getStyle().set("font","400 13.3333px Arial");
-        editLabel.getStyle().set("font-size", "var(--lumo-font-size-s)");
-        editLabel.getStyle().set("font-weight", "500");
+        this.courseService = courseService;
+        this.teamService = teamService;
+        this.grid = grid;
+        //initialize UI elements
+        this.editLabel = new Label("Create new group");
+        this.editLabel.setHeight("wrap-content");
+        this.editLabel.getStyle().set("font","400 13.3333px Arial");
+        this.editLabel.getStyle().set("font-size", "var(--lumo-font-size-s)");
+        this.editLabel.getStyle().set("font-weight", "500");
         //create form fields
-        TextField teamNameTextField = new TextField("team name");
-        TextField teamScheduleTextField = new TextField("team schedule");
-        Select<String> placeholderSelect = new Select<>();
-        placeholderSelect.setItems(courseService.getAllCoursesNames());
-        placeholderSelect.setPlaceholder("not selected");
-        placeholderSelect.setLabel("course");
+        this.teamNameTextField = new TextField("team name");
+        this.teamScheduleTextField = new TextField("team schedule");
+        this.courseSelect = new Select<>();
+        courseSelect.setItems(courseService.getAllCoursesNames());
+        courseSelect.setPlaceholder("not selected");
+        courseSelect.setLabel("course");
         //create button
         Button submit = new Button("Create" , event -> {
-            teamService.save(new Team(teamNameTextField.getValue(),teamScheduleTextField.getValue(), courseService.getCourseByName(placeholderSelect.getValue())));
-            grid.setItems(teamService.getAllTeams());
-            teamNameTextField.setValue("");
-            teamScheduleTextField.setValue("");
-            placeholderSelect.setValue("");
+            this.createTeam();
         });
-        this.add(editLabel ,teamNameTextField,teamScheduleTextField, placeholderSelect, submit);
+        this.add(editLabel ,teamNameTextField,teamScheduleTextField, courseSelect, submit);
         this.setWidth("100%");
         this.setPadding(true);
         this.setAlignItems(Alignment.BASELINE);
+    }
+
+    public void createTeam(){
+        teamService.save(new Team(teamNameTextField.getValue(),teamScheduleTextField.getValue(), courseService.getCourseByName(courseSelect.getValue())));
+        grid.setItems(teamService.getAllTeams());
+        teamNameTextField.setValue("");
+        teamScheduleTextField.setValue("");
+        courseSelect.setValue("");
+    }
+
+    public Label getEditLabel() {
+        return editLabel;
+    }
+
+    public TextField getTeamNameTextField() {
+        return teamNameTextField;
+    }
+
+    public TextField getTeamScheduleTextField() {
+        return teamScheduleTextField;
+    }
+
+    public Select<String> getCourseSelect() {
+        return courseSelect;
     }
 }
