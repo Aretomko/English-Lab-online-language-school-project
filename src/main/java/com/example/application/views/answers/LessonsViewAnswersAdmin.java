@@ -5,7 +5,6 @@ import com.example.application.domain.Team;
 import com.example.application.service.CreateAdminGridService;
 import com.example.application.service.TeamService;
 import com.example.application.views.admin.NavbarAdmin;
-import com.example.application.views.navbar.NavbarView;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;

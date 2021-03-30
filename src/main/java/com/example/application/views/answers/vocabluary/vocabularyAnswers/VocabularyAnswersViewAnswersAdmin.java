@@ -1,4 +1,4 @@
-package com.example.application.views.answers.vocabluary;
+package com.example.application.views.answers.vocabluary.vocabularyAnswers;
 
 import com.example.application.domain.ExerciseGrammar;
 import com.example.application.domain.ExerciseVocabulary;
@@ -18,7 +18,7 @@ import java.util.List;
 public class VocabularyAnswersViewAnswersAdmin extends VerticalLayout {
     public VocabularyAnswersViewAnswersAdmin(TeamService teamService,
                                              VocabularyExerciseService vocabularyExerciseService,
-                                             CreateAdminGridService createAdminGridService){
+                                             CreateVocabularyAnswersAdminAnswersGridService createVocabularyAnswersAdminAnswersGridService){
         NavbarAdmin navbarAdmin = new NavbarAdmin();
         this.add(navbarAdmin);
         String teamId = VaadinSession.getCurrent().getAttribute("teamId").toString();
@@ -27,7 +27,7 @@ public class VocabularyAnswersViewAnswersAdmin extends VerticalLayout {
         String vocabularyExerciseId = VaadinSession.getCurrent().getAttribute("vocabularyExerciseId").toString();
         ExerciseVocabulary exerciseVocabulary = vocabularyExerciseService.getById(vocabularyExerciseId);
         List<User> users = team.getUsers();
-        Grid<User> grid = createAdminGridService.createUserGridWithVocabularyAnswers(users,exerciseVocabulary);
+        Grid<User> grid = createVocabularyAnswersAdminAnswersGridService.createUserGridWithVocabularyAnswers(users,exerciseVocabulary);
         //create explanation
         this.add(new Label("Answers for exercise "+exerciseVocabulary.getId()+ " team " + team.getName()));
         this.add(grid);

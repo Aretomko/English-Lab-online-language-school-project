@@ -153,26 +153,6 @@ public class CreateAdminGridService {
         return grid;
     }
 
-    public Grid<User> createUserGridWithVocabularyAnswers(List<User> users,
-                                                          ExerciseVocabulary exerciseVocabulary){
-        Grid<User> grid = new Grid<>();
-        grid.setItems(users);
-        grid.addColumn(User::getRealN).setHeader("Name");
-        grid.addColumn(User::getSurname).setHeader("Surname");
-        grid.addComponentColumn(item -> new Label(exerciseVocabulary.getAnswer()));
-        grid.addComponentColumn(item -> new Label(exerciseVocabulary.getRightAnswer()));
-        grid.addComponentColumn(item-> this.getVocabularyExerciseAnswer(item,exerciseVocabulary));
-        return grid;
-    }
-    public Grid<ExerciseVocabulary> createExerciseVocabularyGridByLesson(Lesson lesson){
-        Grid<ExerciseVocabulary> grid = new Grid<>();
-        grid.setItems(lesson.getExercisesVocabulary());
-        grid.addColumn(ExerciseVocabulary::getAnswer).setHeader("Possible answers");
-        grid.addColumn(ExerciseVocabulary::getRightAnswer).setHeader("Right answer");
-        grid.addComponentColumn(this::createSeeTeamAnswersExercisesVocabulary).setHeader("See answers");
-        return grid;
-    }
-
     public Grid<AnswerReading> createAnswersReadingGridByReading(ExerciseReading exerciseReading){
         Grid<AnswerReading> grid = new Grid<>();
         grid.setItems(exerciseReading.getAnswersReading());
@@ -182,37 +162,6 @@ public class CreateAdminGridService {
         grid.addColumn(item->item.getExerciseReading().getRightAnswer()).setHeader("Right answer");
         grid.addColumn(item -> item.getExerciseReading().getAnswers()).setHeader("Possible answers");
         return grid;
-    }
-
-    private Button createSeeTeamAnswersExercisesVocabulary(ExerciseVocabulary exerciseVocabulary){
-        Button button = new Button("See answers", event-> {
-            VaadinSession.getCurrent().setAttribute("vocabularyExerciseId", exerciseVocabulary.getId());
-            UI.getCurrent().navigate("admin/answers/answers/vocabulary");
-        });
-        return button;
-    }
-
-
-
-    public Component getVocabularyExerciseAnswer(User user,
-                                                 ExerciseVocabulary exerciseVocabulary){
-        List<Answer> answers = user.getAnswersVocabulary()
-                .stream()
-                .filter(i-> !i.getExerciseVocabulary().equals(exerciseVocabulary))
-                .collect(Collectors.toList());
-        return receiveOutputAnswers(answers,exerciseVocabulary);
-    }
-
-    private Component receiveOutputAnswers(List<Answer> answers,
-                                           Exercise exercise){
-        if (answers.size()>1) return new Label("Internal error")
-                ;
-        if (answers.size()==0) return new Label("Not answered yet");
-        if (answers.get(0).getAnswer().equals(exercise.getRightAnswer())) {
-            return new Label(answers.get(0).getAnswer() + " true");
-        }else{
-            return new Label(answers.get(0).getAnswer() + " false");
-        }
     }
 
     public Button createSeeExercisesOrTasksButton(Exercise exercise){

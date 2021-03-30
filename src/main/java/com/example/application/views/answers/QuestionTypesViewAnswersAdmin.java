@@ -2,7 +2,6 @@ package com.example.application.views.answers;
 
 import com.example.application.domain.Exercise;
 import com.example.application.domain.Lesson;
-import com.example.application.domain.Team;
 import com.example.application.service.CreateAdminGridService;
 import com.example.application.service.LessonsService;
 import com.example.application.views.admin.NavbarAdmin;
