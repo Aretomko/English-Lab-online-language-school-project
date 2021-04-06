@@ -8,7 +8,9 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.server.VaadinSession;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class GrammarOverviewMain extends VerticalLayout {
@@ -27,12 +29,31 @@ public class GrammarOverviewMain extends VerticalLayout {
         wrapper.setWidth("80%");
         String lessonId = VaadinSession.getCurrent().getAttribute("lessonId").toString();
         Lesson lesson = lessonsService.findLessonById(lessonId);
-        if(lesson.getExercisesGrammar().size()==0) this.add(new Label("В цьому уроці немає завдань з граматики"))
+        boolean isHomework = (boolean) VaadinSession.getCurrent().getAttribute("homework");
+        List<ExerciseGrammar> exercisesToDisplay;
+        if (!isHomework){
+            //only exercises not marked as homework
+            exercisesToDisplay = lesson.getExercisesGrammar().stream()
+                    .filter(i-> !i.getHomework())
+                    .sorted(Comparator.comparing(ExerciseGrammar::getId))
+                    .collect(Collectors.toList());
+        }else{
+            //only exercises marked as homework
+            exercisesToDisplay = lesson.getExercisesGrammar().stream()
+                    .filter(ExerciseGrammar::getHomework)
+                    .sorted(Comparator.comparing(ExerciseGrammar::getId))
+                    .collect(Collectors.toList());
+        }
+        if(exercisesToDisplay.size()==0) this.add(new Label("В цьому уроці немає завдань з граматики"))
                 ;
         else{
-            for(ExerciseGrammar exercise : lesson.getExercisesGrammar().stream().sorted(Comparator.comparing(ExerciseGrammar::getId)).collect(Collectors.toList())){
-                wrapper.add(new GrammarExerciseComponent(exercise, answersService, answerGrammarService,grammarExerciseService
-                        , userService));
+            for(ExerciseGrammar exercise : exercisesToDisplay){
+                wrapper.add(new GrammarExerciseComponent(
+                        exercise,
+                        answersService,
+                        answerGrammarService,
+                        grammarExerciseService,
+                        userService));
             }
         }
         this.add(wrapper);

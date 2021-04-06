@@ -22,6 +22,10 @@ public class LessonOverviewMain extends VerticalLayout {
         VerticalLayout wrapper = new VerticalLayout();
         wrapper.setAlignItems(Alignment.CENTER);
         wrapper.setWidth("80%");
+
+        //insure that we are not in homework mode
+        this.removeHomeworkTag();
+
         if(lesson == null) {
             this.add(new Label("Sorry this lesson is not co completed yet"));
         }else {
@@ -85,11 +89,15 @@ public class LessonOverviewMain extends VerticalLayout {
             listening.getStyle().set("box-shadow", "0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px 0 rgba(0,0,0,0.19)");
             Label homeworkLabel = new Label("Домашньє завдання");
             Button seeHomework = new Button("Ропочати завдання", event->{
+                VaadinSession.getCurrent().setAttribute("homework", true);
                 UI.getCurrent().navigate("lesson/homework");
             });
             homework.add(homeworkLabel, seeHomework);
             wrapper.add(homework);
         }
         this.add(wrapper);
+    }
+    private void removeHomeworkTag(){
+        VaadinSession.getCurrent().setAttribute("homework", false);
     }
 }

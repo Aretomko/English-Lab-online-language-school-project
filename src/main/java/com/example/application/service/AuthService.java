@@ -1,5 +1,6 @@
 package com.example.application.service;
 
+import com.example.application.domain.Lesson;
 import com.example.application.domain.Role;
 import com.example.application.domain.User;
 import com.example.application.repos.UserRepo;
@@ -30,6 +31,7 @@ import com.example.application.views.answers.vocabluary.vocabularyExercise.Vocab
 import com.example.application.views.user.MainView;
 import com.example.application.views.user.courseOverview.CourseOverViewMain;
 import com.example.application.views.user.grammarOverview.GrammarOverviewMain;
+import com.example.application.views.user.homeworkOverview.HomeworkOverviewMain;
 import com.example.application.views.user.lessonOverview.LessonOverviewMain;
 import com.example.application.views.user.listening.ListeningExercisesMain;
 import com.example.application.views.user.listening.ListeningTasksMain;
@@ -38,6 +40,7 @@ import com.example.application.views.user.reading.ReadingTasksMain;
 import com.example.application.views.user.vocabulary.VocabularyExerciseMain;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.server.VaadinSession;
 import org.springframework.stereotype.Service;
@@ -107,6 +110,7 @@ public class AuthService {
             routes.add(new AuthorisedRoute("lesson/reading/exercises", ReadingExercisesMain.class));
             routes.add(new AuthorisedRoute("lesson/listening", ListeningTasksMain.class));
             routes.add(new AuthorisedRoute("lesson/listening/exercises", ListeningExercisesMain.class));
+            routes.add(new AuthorisedRoute("lesson/homework", HomeworkOverviewMain.class));
         }else {
             routes.add(new AuthorisedRoute("personal", MainView.class));
             routes.add(new AuthorisedRoute("admin", MainAdminView.class));

@@ -9,6 +9,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.server.VaadinSession;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class VocabularyExerciseMain extends VerticalLayout {
@@ -24,10 +25,25 @@ public class VocabularyExerciseMain extends VerticalLayout {
         wrapper.setWidth("80%");
         String lessonId = VaadinSession.getCurrent().getAttribute("lessonId").toString();
         Lesson lesson = lessonsService.findLessonById(lessonId);
-        if(lesson.getExercisesVocabulary().size()==0) this.add(new Label("В цьому уроці немає завдань з словництва"))
+
+        boolean isHomework = (boolean) VaadinSession.getCurrent().getAttribute("homework");
+        List<ExerciseVocabulary> exerciseToDisplay;
+        if(!isHomework){
+            exerciseToDisplay = lesson.getExercisesVocabulary().stream()
+                    .filter(i->!i.getHomework())
+                    .sorted(Comparator.comparing(ExerciseVocabulary::getId))
+                    .collect(Collectors.toList());
+        }else{
+            exerciseToDisplay = lesson.getExercisesVocabulary().stream()
+                    .filter(i->i.getHomework())
+                    .sorted(Comparator.comparing(ExerciseVocabulary::getId))
+                    .collect(Collectors.toList());
+        }
+
+        if(exerciseToDisplay.size()==0) this.add(new Label("В цьому уроці немає завдань з словництва"))
                 ;
         else{
-            for (ExerciseVocabulary exercise : lesson.getExercisesVocabulary().stream().sorted(Comparator.comparing(ExerciseVocabulary::getId)).collect(Collectors.toList())){
+            for (ExerciseVocabulary exercise : exerciseToDisplay){
                 wrapper.add(new VocabularyExerciseComponent(exercise, vocabularyExerciseService, userService, answerVocabularyService, answersService));
             }
         }

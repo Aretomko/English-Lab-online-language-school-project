@@ -12,19 +12,49 @@ import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 
+import java.nio.channels.Selector;
+
 
 public class EditUserComponent extends HorizontalLayout {
-    public EditUserComponent(User user, TeamService teamService, UserService userService, Grid grid, CreateUserComponent createUserComponent, NavbarAdmin navbarAdmin, UsersAdminView adminView){
+    private final User user;
+    private final TeamService teamService;
+    private final UserService userService;
+    private final Grid<User> grid;
+    private final CreateUserComponent createUserComponent;
+    private final NavbarAdmin navbarAdmin;
+    private final UsersAdminView adminView;
+
+    private Label editLabel;
+    private TextField userNameTextField;
+    private TextField userSurnameTextField;
+    private EmailField emailField;
+    private Select<String> teamSelect;
+    private Button submit;
+
+    public EditUserComponent(User user,
+                             TeamService teamService,
+                             UserService userService,
+                             Grid<User> grid,
+                             CreateUserComponent createUserComponent,
+                             NavbarAdmin navbarAdmin,
+                             UsersAdminView adminView){
+        this.user = user;
+        this.teamService = teamService;
+        this.userService = userService;
+        this.grid = grid;
+        this.createUserComponent = createUserComponent;
+        this.navbarAdmin = navbarAdmin;
+        this.adminView = adminView;
         //create label
-        Label editLabel = new Label("Edit user " + user.getUsername());
+        editLabel = new Label("Edit user " + user.getUsername());
         editLabel.setHeight("wrap-content");
         editLabel.getStyle().set("font","400 13.3333px Arial");
         editLabel.getStyle().set("font-size", "var(--lumo-font-size-s)");
         editLabel.getStyle().set("font-weight", "500");
         //create form field
-        TextField userNameTextField = new TextField("name");
-        TextField userSurnameTextField = new TextField("surname");
-        EmailField emailField = new EmailField("email");
+        userNameTextField = new TextField("name");
+        userSurnameTextField = new TextField("surname");
+        emailField = new EmailField("email");
         if (user.getRealN()!=null) userNameTextField.setValue(user.getRealN())
                 ;
         else userNameTextField.setPlaceholder("not set")
@@ -37,27 +67,31 @@ public class EditUserComponent extends HorizontalLayout {
                 ;
         else emailField.setPlaceholder("not set")
                 ;
-        Select<String> placeholderSelect = new Select<>();
-        placeholderSelect.setItems(teamService.getAllTeamsNames());
-        if (user.getTeam() != null) placeholderSelect.setValue(user.getTeam().getName())
+        teamSelect = new Select<>();
+        teamSelect.setItems(teamService.getAllTeamsNames());
+        if (user.getTeam() != null) teamSelect.setValue(user.getTeam().getName())
                 ;
-        else placeholderSelect.setPlaceholder("not selected")
+        else teamSelect.setPlaceholder("not selected")
                 ;
-        placeholderSelect.setLabel("team");
+        teamSelect.setLabel("team");
         //create button
-            Button submit = new Button("Update" , event -> {
-                user.setRealN(userNameTextField.getValue());
-                user.setSurname(userSurnameTextField.getValue());
-                user.setEmail(emailField.getValue());
-                user.setTeam(teamService.getTeamByName(placeholderSelect.getValue()));
-                userService.save(user);
-                grid.getDataProvider().refreshItem(user);
-                adminView.removeAll();
-                adminView.add(navbarAdmin, createUserComponent, grid);
-            });
-        this.add(editLabel ,userNameTextField, userSurnameTextField, emailField, placeholderSelect, submit);
+        submit = new Button("Update" , event -> {
+            this.updateUser();
+        });
+        this.add(editLabel ,userNameTextField, userSurnameTextField, emailField, teamSelect, submit);
         this.setWidth("100%");
         this.setPadding(true);
         this.setAlignItems(Alignment.BASELINE);
+    }
+
+    public void updateUser(){
+        user.setRealN(userNameTextField.getValue());
+        user.setSurname(userSurnameTextField.getValue());
+        user.setEmail(emailField.getValue());
+        user.setTeam(teamService.getTeamByName(teamSelect.getValue()));
+        userService.save(user);
+        grid.getDataProvider().refreshItem(user);
+        adminView.removeAll();
+        adminView.add(navbarAdmin, createUserComponent, grid);
     }
 }

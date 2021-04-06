@@ -1,5 +1,6 @@
 package com.example.application.views.user.listening;
 
+import com.example.application.domain.ExerciseGrammar;
 import com.example.application.domain.Lesson;
 import com.example.application.domain.Listening;
 import com.example.application.service.LessonsService;
@@ -8,7 +9,9 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.server.VaadinSession;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class ListeningTasksMain extends VerticalLayout {
@@ -23,10 +26,26 @@ public class ListeningTasksMain extends VerticalLayout {
         wrapper.setWidth("80%");
         String lessonId = VaadinSession.getCurrent().getAttribute("lessonId").toString();
         Lesson lesson = lessonsService.findLessonById(lessonId);
-        if(lesson.getListening().size()==0) this.add(new Label("В цьому уроці немає завдань з аудіювання"))
+
+        boolean isHomework = (boolean) VaadinSession.getCurrent().getAttribute("homework");
+        List<Listening> listeningTasksToDisplay;
+        if(!isHomework){
+            //only tasks not marked as homework
+            listeningTasksToDisplay = lesson.getListening().stream()
+                    .filter(i->!i.getHomework())
+                    .sorted(Comparator.comparing(Listening::getId))
+                    .collect(Collectors.toList());
+        }else{
+            listeningTasksToDisplay = lesson.getListening().stream()
+                    .filter(i->i.getHomework())
+                    .sorted(Comparator.comparing(Listening::getId))
+                    .collect(Collectors.toList());
+        }
+
+        if(listeningTasksToDisplay.size()==0) this.add(new Label("В цьому уроці немає завдань з аудіювання"))
                 ;
         else{
-            for (Listening listeningTask : lesson.getListening().stream().sorted(Comparator.comparing(Listening::getId)).collect(Collectors.toList())){
+            for (Listening listeningTask : listeningTasksToDisplay){
                 wrapper.add(new ListeningTaskComponent(listeningTask));
             }
         }
